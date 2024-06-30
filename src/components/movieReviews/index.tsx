@@ -21,12 +21,12 @@ const styles = {
 const MovieReviews: React.FC<MovieDetailsProps> = (movie) => { 
     const [reviews, setReviews] = useState([]);
 
-    useEffect(() => {
-        getMovieReviews(movie.id).then((reviews) => {
-            setReviews(reviews);
-        });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    // useEffect(() => {
+    //     getMovieReviews(movie.id).then((reviews) => {
+    //         setReviews(reviews);
+    //     });
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
 
     return (
         <TableContainer component={Paper}>

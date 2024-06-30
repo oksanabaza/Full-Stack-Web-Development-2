@@ -51,8 +51,9 @@ export interface MoviePageProps {
   
 export type FilterOption = "title" | "genre";
 
-export interface MovieListPageTemplateProps extends BaseMovieListProps {
-  title: string;
+export interface BaseMovieListProps {
+  movies: BaseMovieProps[];
+  action: (m: BaseMovieProps) => React.ReactNode;
 }
 
 export interface Review{

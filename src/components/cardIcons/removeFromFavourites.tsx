@@ -1,16 +1,16 @@
 import React from "react";
-import PageTemplate from "../components/templateMovieListPage";
-import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
-import { BaseMovieProps } from "../types/interfaces";
-import { getMovies } from "../api/tmdb-api";
-import useFiltering from "../hooks/useFiltering";
+import PageTemplate from "../../components/templateMovieListPage";
+import AddToFavouritesIcon from "../../components/cardIcons/addToFavourites";
+import { BaseMovieProps } from "../../types/interfaces";
+import { getMovies } from "../../api/tmdb-api";
+import useFiltering from "../../hooks/useFiltering";
 import MovieFilterUI, {
   titleFilter,
   genreFilter,
-} from "../components/movieFilterUI";
-import { DiscoverMovies } from "../types/interfaces";
+} from "../../components/movieFilterUI";
+import { DiscoverMovies } from "../../types/interfaces";
 import { useQuery } from "react-query";
-import Spinner from "../components/spinner";
+import Spinner from "../../components/spinner";
 const titleFiltering = {
   name: "title",
   value: "",
