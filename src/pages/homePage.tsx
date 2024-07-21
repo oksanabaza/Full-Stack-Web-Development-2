@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 import { BaseMovieProps } from "../types/interfaces";
@@ -11,6 +11,7 @@ import MovieFilterUI, {
 import { DiscoverMovies } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
+
 const titleFiltering = {
   name: "title",
   value: "",
@@ -22,17 +23,28 @@ const genreFiltering = {
   value: "0",
   condition: genreFilter,
 };
+
 const HomePage: React.FC = () => {
-  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>("discover", getMovies);
-  const { filterValues, setFilterValues, filterFunction } = useFiltering(
-    [titleFiltering, genreFiltering]
+  const [page, setPage] = useState(1);
+  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(
+    ["discover", page],
+    () => getMovies(page),
+    {
+      keepPreviousData: true,
+    }
   );
+  const { filterValues, setFilterValues, filterFunction } = useFiltering([
+    titleFiltering,
+    genreFiltering,
+  ]);
+
   if (isLoading) {
     return <Spinner />;
   }
   if (isError) {
     return <h1>{error.message}</h1>;
   }
+
   const changeFilterValues = (type: string, value: string) => {
     const changedFilter = { name: type, value: value };
     const updatedFilterSet =
@@ -41,11 +53,12 @@ const HomePage: React.FC = () => {
         : [filterValues[0], changedFilter];
     setFilterValues(updatedFilterSet);
   };
+
   const movies = data ? data.results : [];
   const displayedMovies = filterFunction(movies);
 
   // Redundant, but necessary to avoid app crashing.
-  const favourites = movies.filter(m => m.favourite)
+  const favourites = movies.filter((m) => m.favourite);
   localStorage.setItem("favourites", JSON.stringify(favourites));
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const addToFavourites = (movieId: number) => true;
@@ -57,7 +70,7 @@ const HomePage: React.FC = () => {
         movies={displayedMovies}
         selectFavourite={addToFavourites}
         action={(movie: BaseMovieProps) => {
-          return <AddToFavouritesIcon {...movie} />
+          return <AddToFavouritesIcon {...movie} />;
         }}
       />
       <MovieFilterUI
@@ -65,7 +78,24 @@ const HomePage: React.FC = () => {
         titleFilter={filterValues[0].value}
         genreFilter={filterValues[1].value}
       />
+      <span>Current Page: {page}</span>
+      <button
+        onClick={() => setPage((old) => Math.max(old - 1, 1))}
+        disabled={page === 1}
+      >
+        Previous Page
+      </button>
+      <button
+        onClick={() => {
+          if (movies) {
+            setPage((old) => old + 1);
+          }
+        }}
+      >
+        Next Page
+      </button>
     </>
   );
 };
+
 export default HomePage;
