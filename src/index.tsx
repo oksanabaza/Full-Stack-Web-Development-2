@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
 import HomePage from "./pages/homePage";
@@ -14,6 +14,7 @@ import AddMovieReviewPage from './pages/addMovieReviewPage';
 import PopularMoviesPage from "./pages/PopularMoviesPage";
 import TVSeriesPage from "./pages/TVSeriesPage"
 import ActorsPage from './pages/ActorsPage'
+import Login from './pages/loginPage'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,6 +27,12 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
+  const [token, setToken] = useState();
+
+  if(!token) {
+    return <Login setToken={setToken} />
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
     <BrowserRouter>
