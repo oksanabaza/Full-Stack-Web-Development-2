@@ -1,16 +1,26 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+// async function loginUser(credentials) {
+//   return fetch('http://localhost:8080/login', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify(credentials)
+//   })
+//     .then(data => data.json())
+//  }
+// Mock login function
 async function loginUser(credentials) {
-  return fetch('http://localhost:8080/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(credentials)
-  })
-    .then(data => data.json())
- }
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        token: 'mock-token-12345'
+      });
+    }, 1000); // Simulate a network delay
+  });
+}
 
 export default function Login({ setToken }) {
   const [username, setUserName] = useState();

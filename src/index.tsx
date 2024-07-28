@@ -15,6 +15,7 @@ import PopularMoviesPage from "./pages/PopularMoviesPage";
 import TVSeriesPage from "./pages/TVSeriesPage"
 import ActorsPage from './pages/ActorsPage'
 import Login from './pages/loginPage'
+import useToken from './../useToken';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,8 +27,20 @@ const queryClient = new QueryClient({
   },
 });
 
+function setToken(userToken) {
+  sessionStorage.setItem('token', JSON.stringify(userToken));
+}
+
+function getToken() {
+  const tokenString = sessionStorage.getItem('token');
+  const userToken = JSON.parse(tokenString);
+  return userToken?.token
+}
+
+
 const App = () => {
-  const [token, setToken] = useState();
+  // const token = getToken();
+  const { token, setToken } = useToken();
 
   if(!token) {
     return <Login setToken={setToken} />
