@@ -11,6 +11,7 @@ import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { Container } from '@mui/material';
 
 const styles = {
     title: {
@@ -46,6 +47,8 @@ const SiteHeader: React.FC = () => {
 
   return (
     <>
+    
+    <Container maxWidth="xl">
       <AppBar position="fixed" elevation={0} color="primary">
         <Toolbar>
           <Typography variant="h4" sx={styles.title}>
@@ -107,6 +110,7 @@ const SiteHeader: React.FC = () => {
         </Toolbar>
       </AppBar>
       <Offset />
+      </Container>
     </>
   );
 };

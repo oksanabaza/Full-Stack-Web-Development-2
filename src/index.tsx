@@ -21,6 +21,8 @@ import AuthProvider from "./contexts/authContext";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
 import "./styles.css"; 
+import { Container } from '@mui/material';
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,8 +40,10 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
     <BrowserRouter>
     <AuthProvider>
+      
       <SiteHeader />
       <MoviesContextProvider>
+      <Container maxWidth="xl">
       <Routes>
       <Route path="/reviews/form" element={<AddMovieReviewPage/>} />
       <Route path="/reviews/:id" element={<MovieReviewPage/>} />
@@ -61,6 +65,7 @@ const App = () => {
         <Route path="*" element={<Navigate to="/" />} />
         
       </Routes>
+     </Container>
       </MoviesContextProvider>
       </AuthProvider>
     </BrowserRouter>
