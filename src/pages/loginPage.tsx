@@ -1,51 +1,38 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-
-async function loginUser(credentials) {
-  return fetch('http://localhost:8080/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(credentials)
-  })
-    .then(data => data.json())
- }
-
-export default function Login({ setToken }) {
-  const [username, setUserName] = useState();
-  const [password, setPassword] = useState();
-
-  const handleSubmit = async e => {
-    e.preventDefault();
-    const token = await loginUser({
-      username,
-      password
-    });
-    setToken(token);
-  }
+import React, { useContext } from 'react';
+import { AuthContext } from '../contexts/authContext';
+import { Card, CardContent, Typography, Button, Box } from '@mui/material';
 
 
-  return(
-    <div className="login-wrapper">
-      <h1>Please Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          <p>Username</p>
-          <input type="text" onChange={e => setUserName(e.target.value)}/>
-        </label>
-        <label>
-          <p>Password</p>
-          <input type="password" onChange={e => setPassword(e.target.value)}/>
-        </label>
-        <div>
-          <button type="submit">Submitdawd</button>
-        </div>
-      </form>
-    </div>
-  )
-}
+// LoginPage component
+const LoginPage: React.FC = () => {
+  const authContext = useContext(AuthContext);
+  const { authenticate } = authContext || {};
 
-Login.propTypes = {
-  setToken: PropTypes.func.isRequired
+  const login = () => {
+    const password = Math.random().toString(36).substring(7);
+    authenticate && authenticate('oksana@gmail.com', password);
+  };
+
+  return (
+    <Box >
+      <Card >
+        <CardContent >
+          <Typography>
+            Login Page h
+          </Typography>
+          <Typography >
+            Click the button to login
+          </Typography>
+          <Button
+            variant="contained"
+            onClick={login}
+          >
+            Submit
+          </Button>
+        </CardContent>
+      </Card>
+    </Box>
+  );
 };
+
+export default LoginPage;

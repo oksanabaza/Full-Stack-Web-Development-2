@@ -76,3 +76,8 @@ export interface DiscoverMovies {
   total_results: number;
   results: BaseMovieProps[];
 }
+export interface AuthContextInterface {
+  token: string | null;
+  authenticate: ((username: string, password: string) => void);
+  signout: () => void;
+}
