@@ -81,3 +81,8 @@ export interface AuthContextInterface {
   authenticate: ((username: string, password: string) => void);
   signout: () => void;
 }
+export interface MovieCastMember {
+  id: number;
+  name: string;
+  profile_path?: string;
+}

@@ -7,6 +7,7 @@ import { getMovieImages } from "../../api/tmdb-api";
 import { MovieImage, MovieDetailsProps } from "../../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from '../spinner';
+import CastMembers from './../castMembers'
 
 const styles = {
     gridListRoot: {
@@ -25,8 +26,7 @@ interface TemplateMoviePageProps {
     children: React.ReactElement;
 }
 
-
-const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) => {
+const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, children }) => {
     const { data, error, isLoading, isError } = useQuery<MovieImage[], Error>(
         ["images", movie.id],
         () => getMovieImages(movie.id)
@@ -37,12 +37,11 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) 
     }
 
     if (isError) {
-        return <h1>{(error
-
-        ).message}</h1>;
+        return <h1>{(error).message}</h1>;
     }
 
     const images = data as MovieImage[];
+    const firstImage = images.length > 0 ? images[0] : null;
 
     return (
         <>
@@ -51,23 +50,23 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) 
             <Grid container spacing={5} style={{ padding: "15px" }}>
                 <Grid item xs={3}>
                     <div>
-                        <ImageList cols={1}>
-                            {images.map((image: MovieImage) => (
+                        {firstImage && (
+                            <ImageList cols={1}>
                                 <ImageListItem
-                                    key={image.file_path}
+                                    key={firstImage.file_path}
                                     sx={styles.gridListTile}
                                     cols={1}
                                 >
                                     <img
-                                        src={`https://image.tmdb.org/t/p/w500/${image.file_path}`}
+                                        src={`https://image.tmdb.org/t/p/w500/${firstImage.file_path}`}
                                         alt={'Image alternative'}
                                     />
                                 </ImageListItem>
-                            ))}
-                        </ImageList>
+                            </ImageList>
+                        )}
                     </div>
                 </Grid>
-
+                <CastMembers movieId={movie.id} />
                 <Grid item xs={9}>
                     {children}
                 </Grid>

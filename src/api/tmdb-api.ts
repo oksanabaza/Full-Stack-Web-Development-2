@@ -124,6 +124,25 @@ export const getMovie = (id: string) => {
   });
 };
 
+export const getTvShowCast = (id: string | number) => {
+  return fetch(
+    `https://api.themoviedb.org/3/tv/${id}/aggregate_credits?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
+  )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to fetch TV show cast data");
+      }
+      return response.json();
+    })
+    .then((json) => {
+      const cast = json.cast || [];
+      return { cast }; // Return an object with the cast array
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
+
   export const getActor = (id: string | number) => {
     return fetch(
       `https://api.themoviedb.org/3/person/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
