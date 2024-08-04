@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import fakeAuth from "../components/Auth";
 import { AuthContextInterface } from "../types/interfaces";
@@ -11,11 +11,19 @@ const AuthContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Initialize token from localStorage when component mounts
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(JSON.parse(storedToken));
+    }
+  }, []);
+
   const authenticate = async (username: string, password: string) => {
     try {
       const token = await fakeAuth(username, password);
+      localStorage.setItem('token', JSON.stringify(token));
       setToken(token);
-      console.log(token)
       const origin = location.state?.intent?.pathname || '/';
       navigate(origin);
     } catch (error) {
@@ -25,6 +33,7 @@ const AuthContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
 
   const signout = () => {
     setToken(null);
+    localStorage.removeItem('token'); // Remove token from localStorage on signout
   };
 
   return (
