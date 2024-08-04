@@ -86,3 +86,42 @@ export interface MovieCastMember {
   name: string;
   profile_path?: string;
 }
+export interface ActorDetailsProps {
+  id: number;
+  name: string;
+  biography: string;
+  profile_path?: string;
+  birthday?: string;
+  deathday?: string;
+  known_for_department: string;
+  popularity: number;
+  place_of_birth?: string;
+  also_known_as?: string[];
+}
+export interface TvShowCastMember {
+  id: number;
+  name: string;
+  profile_path?: string;
+}
+export interface BaseTvShowProps {
+  name: string;
+  id: number;
+  original_language: string;
+  overview: string;
+  first_air_date: string;
+  vote_average: number;
+  popularity: number;
+  poster_path?: string;
+  backdrop_path?: string;
+  genre_ids?: number[];
+  favourite?: boolean;
+  playlist?: boolean;
+  cast?: TvShowCastMember[];
+}
+export interface BaseTvShowListProps {
+  tvShows: BaseTvShowProps[];
+  action?: (tvShow: BaseTvShowProps) => React.ReactNode;
+}
+export interface MovieListPageTemplateProps extends BaseMovieListProps {
+  title: string;
+}

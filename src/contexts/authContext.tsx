@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import fakeAuth from "../components/Auth";
 import { AuthContextInterface } from "../types/interfaces";
 
-// Authcontext based on lecture 4 private routing section
 export const AuthContext = createContext<AuthContextInterface | null>(null);
 
 const AuthContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
@@ -11,7 +10,6 @@ const AuthContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Initialize token from localStorage when component mounts
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     if (storedToken) {
@@ -33,7 +31,7 @@ const AuthContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
 
   const signout = () => {
     setToken(null);
-    localStorage.removeItem('token'); // Remove token from localStorage on signout
+    localStorage.removeItem('token'); 
   };
 
   return (
