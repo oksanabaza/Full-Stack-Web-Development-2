@@ -29,7 +29,6 @@ const FavouriteMoviesPage: React.FC = () => {
     [titleFiltering, genreFiltering]
   );
 
-  // Create an array of queries and run them in parallel.
   const favouriteMovieQueries = useQueries(
     movieIds.map((movieId) => {
       return {
@@ -39,7 +38,6 @@ const FavouriteMoviesPage: React.FC = () => {
     })
   );
 
-  // Check if any of the parallel queries is still loading.
   const isLoading = favouriteMovieQueries.find((m) => m.isLoading === true);
 
   if (isLoading) {
@@ -58,7 +56,6 @@ const FavouriteMoviesPage: React.FC = () => {
     setFilterValues(updatedFilterSet);
   };
 
-  const toDo = () => true;
 
   return (
     <>
@@ -72,8 +69,9 @@ const FavouriteMoviesPage: React.FC = () => {
               <WriteReview {...movie} />
             </>
           );
-        }}
-      />
+        } } selectFavourite={function (): void {
+          throw new Error("Function not implemented.");
+        } }      />
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}
         titleFilter={filterValues[0].value}

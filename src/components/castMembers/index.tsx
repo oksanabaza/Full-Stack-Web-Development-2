@@ -78,7 +78,7 @@ const CastMembers: React.FC<CastMembersProps> = ({ movieId, tvShowId }) => {
         <Link
           key={castMember.id}
           to={`/actors/${castMember.id}`}
-          style={{ textDecoration: 'none' }} // Ensure the link does not underline the text (purely personal preference but I feel its cleaner)
+          style={{ textDecoration: 'none' }} 
         >
           <Box sx={styles.castCard}>
             <img

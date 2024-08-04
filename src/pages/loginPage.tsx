@@ -3,7 +3,6 @@ import { AuthContext } from '../contexts/authContext';
 import { Card, CardContent, Typography, Button, Box } from '@mui/material';
 
 
-// LoginPage component
 const LoginPage: React.FC = () => {
   const authContext = useContext(AuthContext);
   const { authenticate } = authContext || {};
