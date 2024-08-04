@@ -37,7 +37,7 @@ const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
 
   return (
     <Card sx={styles.card}>
-      <CardHeader
+      {/* <CardHeader
         avatar={
           isFavourite ? (   //CHANGED
             <Avatar sx={styles.avatar}>
@@ -45,12 +45,12 @@ const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
             </Avatar>
           ) : null
         }
-        title={
-          <Typography variant="h5" component="p">
-            {movie.title}{" "}
-          </Typography>
-        }
-      />
+        // title={
+        //   <Typography variant="h5" component="p">
+        //     {movie.title}{" "}
+        //   </Typography>
+        // }
+      /> */}
 
       <CardMedia
         sx={styles.media}
@@ -60,7 +60,7 @@ const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
             : img
         }
       />
-      <CardContent>
+      {/* <CardContent>
         <Grid container>
           <Grid item xs={6}>
             <Typography variant="h6" component="p">
@@ -75,15 +75,15 @@ const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
             </Typography>
           </Grid>
         </Grid>
-      </CardContent>
-      <CardActions disableSpacing>
+      </CardContent> */}
+      {/* <CardActions disableSpacing>
       {action(movie)}
         <Link to={`/movies/${movie.id}`}>
           <Button variant="outlined" size="medium" color="primary">
             More Info ...
           </Button>
         </Link>
-      </CardActions>
+      </CardActions> */}
     </Card>
   );
 }
