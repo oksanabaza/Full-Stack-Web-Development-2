@@ -129,7 +129,7 @@ const TemplateTvShowPage: React.FC<TemplateTvShowPageProps> = ({ tvShow, childre
 
   const contentContainerStyle = {
     ...styles.contentContainer,
-    backgroundImage: backdropUrl,
+    // backgroundImage: backdropUrl,
   };
 
 
@@ -144,6 +144,7 @@ const TemplateTvShowPage: React.FC<TemplateTvShowPageProps> = ({ tvShow, childre
   return (
     <Box sx={styles.pageContainer}>
       <Box sx={contentContainerStyle}>
+   <div>test</div>
         {trailer && (
           <Box sx={styles.trailerContainer}>
             <iframe
@@ -164,7 +165,7 @@ const TemplateTvShowPage: React.FC<TemplateTvShowPageProps> = ({ tvShow, childre
               <Box display="flex" flexWrap="wrap" justifyContent="center">
                 {irelandProviders.map((provider) => (
                   <Box key={provider.provider_id} display="flex" justifyContent="center" alignItems="center" my={1} mx={1}>
-                    <img src={`https://image.tmdb.org/t/p/original${provider.logo_path}`} alt={provider.provider_name} style={styles.providerLogo} />
+                    {/* <img src={`https://image.tmdb.org/t/p/original${provider.logo_path}`} alt={provider.provider_name} style={styles.providerLogo} /> */}
                   </Box>
                 ))}
               </Box>
