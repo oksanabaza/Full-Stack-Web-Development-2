@@ -51,7 +51,7 @@ const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
         //   </Typography>
         // }
       /> */}
-
+ <Link to={`/movies/${movie.id}`}>
       <CardMedia
         sx={styles.media}
         image={
@@ -60,6 +60,7 @@ const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
             : img
         }
       />
+      </Link>
       {/* <CardContent>
         <Grid container>
           <Grid item xs={6}>
