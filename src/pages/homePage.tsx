@@ -4,13 +4,12 @@ import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 import { BaseMovieProps } from "../types/interfaces";
 import { getMovies } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
-import MovieFilterUI, {
-  titleFilter,
-  genreFilter,
-} from "../components/movieFilterUI";
+import MovieFilterUI, { titleFilter, genreFilter } from "../components/movieFilterUI";
 import { DiscoverMovies } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
+import Box from '@mui/material/Box';
+import Pagination from '@mui/material/Pagination';
 
 const titleFiltering = {
   name: "title",
@@ -78,22 +77,22 @@ const HomePage: React.FC = () => {
         titleFilter={filterValues[0].value}
         genreFilter={filterValues[1].value}
       />
-      <span>Current Page: {page}</span>
-      <button
-        onClick={() => setPage((old) => Math.max(old - 1, 1))}
-        disabled={page === 1}
-      >
-        Previous Page
-      </button>
-      <button
-        onClick={() => {
-          if (movies) {
-            setPage((old) => old + 1);
-          }
-        }}
-      >
-        Next Page
-      </button>
+      <Box sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
+        <Pagination
+          count={data?.total_pages || 0}
+          page={page}
+          onChange={(_event, value) => setPage(value)}
+          color="primary"
+          sx={{
+            '& .MuiPaginationItem-root': {
+              color: 'white', 
+            },
+            '& .MuiPaginationItem-ellipsis': {
+              color: 'white', 
+            },
+          }}
+        />
+      </Box>
     </>
   );
 };

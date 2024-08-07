@@ -46,7 +46,11 @@ interface ActorDetailsComponentProps {
 const ActorDetails: React.FC<ActorDetailsComponentProps> = ({ actor }) => {
   return (
     <Grid container spacing={4} sx={styles.container}>
-      {/* Card 1: Image and Name */}
+       <Grid item>
+       <Typography variant="h5" component="div">
+              {actor.name}
+            </Typography>
+            </Grid>
       <Grid item>
         <Card sx={styles.card}>
           <CardMedia
@@ -56,17 +60,13 @@ const ActorDetails: React.FC<ActorDetailsComponentProps> = ({ actor }) => {
                 ? `https://image.tmdb.org/t/p/w500/${actor.profile_path}`
                 : 'path/to/default-image.jpg' 
             }
-            title={actor.name}
+  
           />
-          <CardContent sx={styles.content}>
-            <Typography variant="h5" component="div">
-              {actor.name}
-            </Typography>
-          </CardContent>
+         
         </Card>
       </Grid>
       <Grid item>
-        <Card sx={styles.card}>
+        {/* <Card sx={styles.card}> */}
           <CardContent sx={{ ...styles.content, ...styles.scrollableContent }}>
             <Typography variant="h6" component="div">
               Biography
@@ -76,11 +76,11 @@ const ActorDetails: React.FC<ActorDetailsComponentProps> = ({ actor }) => {
               }
             </Typography>
           </CardContent>
-        </Card>
+        {/* </Card> */}
       </Grid>
       <Grid item>
-        <Card sx={styles.card}>
-          <CardContent sx={styles.content}>
+        {/* <Card sx={styles.card}> */}
+          {/* <CardContent sx={styles.content}> */}
             <Typography variant="h6" component="div">
               Additional Information
             </Typography>
@@ -97,8 +97,8 @@ const ActorDetails: React.FC<ActorDetailsComponentProps> = ({ actor }) => {
               <strong>Popularity:</strong> {actor.popularity ? actor.popularity.toFixed(1) : 'Not Available' 
               }
             </Typography>
-          </CardContent>
-        </Card>
+          {/* </CardContent> */}
+        {/* </Card> */}
       </Grid>
     </Grid>
   );
