@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
 import HomePage from "./pages/homePage";
 import MoviePage from "./pages/movieDetailsPage";
-import FavouriteMoviesPage from "./pages/favouriteMoviesPage"; // NEW
+import FavouriteMoviesPage from "./pages/favouriteMoviesPage";
 import MovieReviewPage from "./pages/movieReviewPage";
 import SiteHeader from './components/siteHeader';
 import UpcomingMoviePage from "./pages/upcomingMoviesPage";
+import TvShowsPage from '../src/pages/tvShowsPage'
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from 'react-query/devtools';
 import MoviesContextProvider from "./contexts/moviesContext";
@@ -17,6 +18,11 @@ import ActorsPage from './pages/ActorsPage'
 import LoginPage from './pages/loginPage';
 import ProtectedRoute from './components/protectedRoute';
 import AuthProvider from "./contexts/authContext";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "./theme";
+import "./styles.css"; 
+import { Container } from '@mui/material';
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,18 +35,15 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
-  // const [token, setToken] = useState();
-
-  // if(!token) {
-  //   return <Login setToken={setToken} />
-  // }
-
-  return (
+  return ( 
+  <ThemeProvider theme={theme}>
     <QueryClientProvider client={queryClient}>
     <BrowserRouter>
     <AuthProvider>
+      
       <SiteHeader />
       <MoviesContextProvider>
+      <Container maxWidth="xl">
       <Routes>
       <Route path="/reviews/form" element={<AddMovieReviewPage/>} />
       <Route path="/reviews/:id" element={<MovieReviewPage/>} />
@@ -56,16 +59,19 @@ const App = () => {
         <Route path="/movies/people" element={<ActorsPage />} />
         <Route path="/movies/:id" element={<MoviePage />} />
         <Route path="/actors/:id" element={<ActorsPage />} />
+        <Route path="/tvshows/:id" element={<TvShowsPage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<Navigate to="/" />} />
         
       </Routes>
+     </Container>
       </MoviesContextProvider>
       </AuthProvider>
     </BrowserRouter>
     <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
+    </ThemeProvider>
   );
 };
 
