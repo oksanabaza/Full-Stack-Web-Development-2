@@ -1,9 +1,8 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { FilterOption, GenreData } from "../../types/interfaces";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-// import InputLabel from "@mui/material/InputLabel;
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
@@ -19,6 +18,7 @@ interface FilterMoviesCardProps {
   onUserInput: (f: FilterOption, s: string) => void;
   titleFilter: string;
   genreFilter: string;
+  onSortOrderChange: (order: string) => void;
 }
 
 const styles = {
@@ -30,19 +30,18 @@ const styles = {
     margin: 1,
     minWidth: 220,
     backgroundColor: "rgb(255, 255, 255)",
+    color: 'black',
+
   },
   select: {
     color: 'black',
     backgroundColor: 'white',
   },
-  // menuItem: {
-  //   color: 'black',
-  //   backgroundColor: 'white',
-  // },
 };
 
-const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreFilter, onUserInput }) => {
+const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreFilter, onUserInput, onSortOrderChange }) => {
   const { data, error, isLoading, isError } = useQuery<GenreData, Error>("genres", getGenres);
+  const [sortOrder, setSortOrder] = useState<string>("desc"); // State to track sort order
 
   if (isLoading) {
     return <Spinner />;
@@ -50,6 +49,7 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
   if (isError) {
     return <h1>{(error as Error).message}</h1>;
   }
+
   const genres = data?.genres || [];
   if (genres[0].name !== "All") {
     genres.unshift({ id: "0", name: "All" });
@@ -65,6 +65,11 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
 
   const handleGenreChange = (e: SelectChangeEvent) => {
     handleChange("genre", e.target.value);
+  };
+
+  const handleSortChange = (order: string) => {
+    setSortOrder(order); // Update the sort order state
+    onSortOrderChange(order); // Trigger the sort order change in the parent component
   };
 
   return (
@@ -85,7 +90,6 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
             onChange={handleTextChange}
           />
           <FormControl sx={styles.formControl}>
-            {/* <InputLabel id="genre-label">Genre</InputLabel> */}
             <Select
               labelId="genre-label"
               id="genre-select"
@@ -94,7 +98,7 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
               sx={styles.select}
             >
               {genres.map((genre) => (
-                <MenuItem key={genre.id} value={genre.id} sx={styles.menuItem}>
+                <MenuItem key={genre.id} value={genre.id}>
                   {genre.name}
                 </MenuItem>
               ))}
@@ -108,6 +112,18 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
             <SortIcon fontSize="large" />
             Sort the movies.
           </Typography>
+          <FormControl sx={styles.formControl}>
+            <Select
+              labelId="sort-label"
+              id="sort-select"
+              value={sortOrder}
+              onChange={(e) => handleSortChange(e.target.value)}
+              sx={styles.select}
+            >
+              <MenuItem value="asc">Ascending</MenuItem>
+              <MenuItem value="desc">Descending</MenuItem>
+            </Select>
+          </FormControl>
         </CardContent>
       </Card>
     </>

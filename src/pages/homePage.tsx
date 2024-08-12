@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 import { BaseMovieProps } from "../types/interfaces";
-import { getMovies } from "../api/tmdb-api";
+import { getMovies, getSortedByPopularity } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
 import MovieFilterUI, { titleFilter, genreFilter } from "../components/movieFilterUI";
 import { DiscoverMovies } from "../types/interfaces";
@@ -25,9 +25,10 @@ const genreFiltering = {
 
 const HomePage: React.FC = () => {
   const [page, setPage] = useState(1);
+  const [sortOrder, setSortOrder] = useState("desc");
   const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(
-    ["discover", page],
-    () => getMovies(page),
+    ["discover", page, sortOrder], // Include sortOrder in the query key
+    () => getSortedByPopularity(sortOrder), // Use the sorting API call
     {
       keepPreviousData: true,
     }
@@ -76,6 +77,7 @@ const HomePage: React.FC = () => {
         onFilterValuesChange={changeFilterValues}
         titleFilter={filterValues[0].value}
         genreFilter={filterValues[1].value}
+        onSortOrderChange={setSortOrder}
       />
       <Box sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
         <Pagination

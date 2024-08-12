@@ -144,7 +144,6 @@ const TemplateTvShowPage: React.FC<TemplateTvShowPageProps> = ({ tvShow, childre
   return (
     <Box sx={styles.pageContainer}>
       <Box sx={contentContainerStyle}>
-   <div>test</div>
         {trailer && (
           <Box sx={styles.trailerContainer}>
             <iframe

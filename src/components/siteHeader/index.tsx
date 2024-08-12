@@ -47,9 +47,8 @@ const SiteHeader: React.FC = () => {
 
   return (
     <>
-    
-    <Container maxWidth="xl">
       <AppBar position="fixed" elevation={0} color="primary">
+      <Container maxWidth="xl">
         <Toolbar>
           <Typography variant="h4" sx={styles.title}>
             TMDB Client
@@ -108,9 +107,10 @@ const SiteHeader: React.FC = () => {
             </>
           )}
         </Toolbar>
+        </Container>
       </AppBar>
+      
       <Offset />
-      </Container>
     </>
   );
 };

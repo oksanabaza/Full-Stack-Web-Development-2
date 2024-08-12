@@ -272,3 +272,13 @@ export const getTvShowCast = (id: string | number) => {
         throw error;
       });
   };
+
+export const getSortedByPopularity = (sort_value: string)=>{
+  return fetch(
+    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.${sort_value}`
+  )
+  .then((res) => res.json())
+  .catch((error) => {
+    throw error;
+  });
+}
