@@ -37,11 +37,7 @@ const MovieDetails: React.FC<MovieDetailsProps> = (movie) => {
 
     return (
         <>
-            <Typography variant="h5" component="h3">
-                Overview
-            </Typography>
-
-            <Typography variant="h6" component="p">
+            {/* <Typography variant="h6" component="p">
                 {movie.overview}
             </Typography>
 
@@ -78,7 +74,8 @@ const MovieDetails: React.FC<MovieDetailsProps> = (movie) => {
             </Fab>
             <Drawer anchor="top" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
                 <MovieReviews {...movie} />
-            </Drawer>
+            </Drawer> */}
+            this part will be updated soon
         </>
     );
 };
