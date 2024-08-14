@@ -1,67 +1,73 @@
 import React, { useEffect, useState } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Link } from "react-router-dom";
+import Avatar from "@mui/material/Avatar";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 import { getMovieReviews } from "../../api/tmdb-api";
-import { excerpt } from "../../util";
-
-import { MovieDetailsProps, Review } from "../../types/interfaces"; // Import the MovieT type from the appropriate location
+import { MovieDetailsProps, Review } from "../../types/interfaces";
 
 const styles = {
-    table: {
-        minWidth: 550,
+    commentBox: {
+        display: "flex",
+        alignItems: "flex-start",
+        marginBottom: "20px",
+        padding: "15px",
+        // backgroundColor: "#f9f9f9",
+        borderRadius: "8px",
+    },
+    avatar: {
+        marginRight: "15px",
+    },
+    commentContent: {
+        flex: 1,
+    },
+    authorName: {
+        fontWeight: "bold",
+        marginBottom: "5px",
+    },
+    commentText: {
+        marginBottom: "10px",
+    },
+    commentDate: {
+        fontSize: "0.85rem",
+        color: "#888",
     },
 };
 
 const MovieReviews: React.FC<MovieDetailsProps> = (movie) => { 
-    const [reviews, setReviews] = useState([]);
+    const [reviews, setReviews] = useState<Review[]>([]);
 
-    // useEffect(() => {
-    //     getMovieReviews(movie.id).then((reviews) => {
-    //         setReviews(reviews);
-    //     });
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, []);
+    useEffect(() => {
+        getMovieReviews(movie.id).then((reviews) => {
+            setReviews(reviews);
+        });
+    }, [movie.id]);
 
     return (
-        <TableContainer component={Paper}>
-            <Table sx={styles.table} aria-label="reviews table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell >Author</TableCell>
-                        <TableCell align="center">Excerpt</TableCell>
-                        <TableCell align="right">More</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {reviews.map((r: Review) => (
-                        <TableRow key={r.id}>
-                            <TableCell component="th" scope="row">
-                                {r.author}
-                            </TableCell>
-                            <TableCell >{excerpt(r.content)}</TableCell>
-                            <TableCell >
-                                <Link
-                                    to={`/reviews/${r.id}`}
-                                    state={{
-                                        review: r,
-                                        movie: movie,
-                                    }}
-                                >
-                                    Full Review
-                                </Link>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+        <TableContainer component={Paper} sx={{ padding: "20px" }}>
+            {reviews.map((review) => (
+                <Box key={review.author} sx={styles.commentBox}>
+                    <Avatar
+                        src={`https://image.tmdb.org/t/p/w500/${review.author_details.avatar_path}`}
+                        alt={review.author_details.name}
+                        sx={styles.avatar}
+                    />
+                    <Box sx={styles.commentContent}>
+                        <Typography sx={styles.authorName}>
+                            {review.author_details.name || review.author}
+                        </Typography>
+                        <Typography sx={styles.commentText}>
+                            {review.content}
+                        </Typography>
+                        <Typography sx={styles.commentDate}>
+                            {new Date(review.created_at).toLocaleDateString()}
+                        </Typography>
+                    </Box>
+                </Box>
+            ))}
         </TableContainer>
     );
-}
+};
 
 export default MovieReviews;

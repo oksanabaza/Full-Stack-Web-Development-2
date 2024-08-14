@@ -15,6 +15,7 @@ import { BaseMovieProps } from "../../types/interfaces";
 import { Link } from "react-router-dom"; 
 import Avatar from "@mui/material/Avatar";
 import { MoviesContext } from "../../contexts/moviesContext";
+import Tooltip from '@mui/material/Tooltip';
 
 
 const styles = {
@@ -36,7 +37,9 @@ const { favourites, addToFavourites } = useContext(MoviesContext);//NEW
 const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
 
   return (
+    <Tooltip title="Add" placement="bottom">
     <Card sx={styles.card}>
+        {/* <Tooltip title="Add" placement="top"> */}
       {/* <CardHeader
         avatar={
           isFavourite ? (   //CHANGED
@@ -45,12 +48,14 @@ const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
             </Avatar>
           ) : null
         }
+        
         // title={
         //   <Typography variant="h5" component="p">
         //     {movie.title}{" "}
         //   </Typography>
         // }
-      /> */}
+      />
+      </Tooltip> */}
  <Link to={`/movies/${movie.id}`}>
       <CardMedia
         sx={styles.media}
@@ -60,7 +65,11 @@ const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
             : img
         }
       />
+        
+    
+     
       </Link>
+      
       {/* <CardContent>
         <Grid container>
           <Grid item xs={6}>
@@ -86,6 +95,7 @@ const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
         </Link>
       </CardActions> */}
     </Card>
+    </Tooltip>
   );
 }
 
