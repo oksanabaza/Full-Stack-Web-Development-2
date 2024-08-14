@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 import { BaseMovieProps } from "../types/interfaces";
-import { getMovies, getSortedByPopularity } from "../api/tmdb-api";
+import { getSortedByPopularity } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
 import MovieFilterUI, { titleFilter, genreFilter } from "../components/movieFilterUI";
 import { DiscoverMovies } from "../types/interfaces";
@@ -10,6 +10,7 @@ import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
+import Grid from "@mui/material/Grid";
 
 const titleFiltering = {
   name: "title",
@@ -27,8 +28,8 @@ const HomePage: React.FC = () => {
   const [page, setPage] = useState(1);
   const [sortOrder, setSortOrder] = useState("desc");
   const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(
-    ["discover", page, sortOrder], // Include sortOrder in the query key
-    () => getSortedByPopularity(sortOrder), // Use the sorting API call
+    ["discover", page, sortOrder],
+    () => getSortedByPopularity(sortOrder),
     {
       keepPreviousData: true,
     }
@@ -57,45 +58,48 @@ const HomePage: React.FC = () => {
   const movies = data ? data.results : [];
   const displayedMovies = filterFunction(movies);
 
-  // Redundant, but necessary to avoid app crashing.
   const favourites = movies.filter((m) => m.favourite);
   localStorage.setItem("favourites", JSON.stringify(favourites));
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   const addToFavourites = (movieId: number) => true;
 
   return (
-    <>
-      <PageTemplate
-        title="Discover Movies"
-        movies={displayedMovies}
-        selectFavourite={addToFavourites}
-        action={(movie: BaseMovieProps) => {
-          return <AddToFavouritesIcon {...movie} />;
-        }}
-      />
-      <MovieFilterUI
-        onFilterValuesChange={changeFilterValues}
-        titleFilter={filterValues[0].value}
-        genreFilter={filterValues[1].value}
-        onSortOrderChange={setSortOrder}
-      />
-      <Box sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
-        <Pagination
-          count={data?.total_pages || 0}
-          page={page}
-          onChange={(_event, value) => setPage(value)}
-          color="primary"
-          sx={{
-            '& .MuiPaginationItem-root': {
-              color: 'white', 
-            },
-            '& .MuiPaginationItem-ellipsis': {
-              color: 'white', 
-            },
+    <Grid container spacing={1}>
+      <Grid item xs={3}>
+        <MovieFilterUI
+          onFilterValuesChange={changeFilterValues}
+          titleFilter={filterValues[0].value}
+          genreFilter={filterValues[1].value}
+          onSortOrderChange={setSortOrder}
+        />
+      </Grid>
+      <Grid item xs={8}>
+        <PageTemplate
+          title="Discover Movies"
+          movies={displayedMovies}
+          selectFavourite={addToFavourites}
+          action={(movie: BaseMovieProps) => {
+            return <AddToFavouritesIcon {...movie} />;
           }}
         />
-      </Box>
-    </>
+        <Box sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
+          <Pagination
+            count={data?.total_pages || 0}
+            page={page}
+            onChange={(_event, value) => setPage(value)}
+            color="primary"
+            sx={{
+              '& .MuiPaginationItem-root': {
+                color: 'white',
+              },
+              '& .MuiPaginationItem-ellipsis': {
+                color: 'white',
+              },
+            }}
+          />
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
 

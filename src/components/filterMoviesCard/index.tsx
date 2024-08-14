@@ -3,16 +3,18 @@ import { FilterOption, GenreData } from "../../types/interfaces";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import MenuItem from "@mui/material/MenuItem";
-import TextField from "@mui/material/TextField";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SortIcon from '@mui/icons-material/Sort';
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import { SelectChangeEvent } from "@mui/material";
 import { getGenres } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from '../spinner';
+import Collapse from "@mui/material/Collapse";
+import IconButton from "@mui/material/IconButton";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import Box from '@mui/material/Box';
+import CustomSelect from '../CustomSelect'; // Adjust path if needed
+import CustomTextField from '../CustomTextField'; // Adjust path if needed
 
 interface FilterMoviesCardProps {
   onUserInput: (f: FilterOption, s: string) => void;
@@ -22,38 +24,30 @@ interface FilterMoviesCardProps {
 }
 
 const styles = {
-  root: {
+  card: {
     maxWidth: 345,
+    marginBottom: 2,
+    minHeight: 250, // Set a fixed minimum height
+    transition: 'height 0.3s ease', // Smooth height transition
   },
-  media: { height: 300 },
-  formControl: {
-    margin: 1,
-    minWidth: 220,
-    backgroundColor: "rgb(255, 255, 255)",
-    color: 'black',
-
-  },
-  select: {
-    color: 'black',
-    backgroundColor: 'white',
+  iconButton: {
+    marginLeft: 'auto',
   },
 };
 
 const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreFilter, onUserInput, onSortOrderChange }) => {
   const { data, error, isLoading, isError } = useQuery<GenreData, Error>("genres", getGenres);
-  const [sortOrder, setSortOrder] = useState<string>("desc"); // State to track sort order
+  const [sortOrder, setSortOrder] = useState<string>("desc");
+  const [openFilters, setOpenFilters] = useState<boolean>(false);
+  const [ratingFilter, setRatingFilter] = useState<number>(0);
+  const [releaseDateStart, setReleaseDateStart] = useState<string>("");
+  const [releaseDateEnd, setReleaseDateEnd] = useState<string>("");
 
-  if (isLoading) {
-    return <Spinner />;
-  }
-  if (isError) {
-    return <h1>{(error as Error).message}</h1>;
-  }
+  if (isLoading) return <Spinner />;
+  if (isError) return <h1>{(error as Error).message}</h1>;
 
   const genres = data?.genres || [];
-  if (genres[0].name !== "All") {
-    genres.unshift({ id: "0", name: "All" });
-  }
+  const genreOptions = [{ value: "0", label: "All" }, ...genres.map(g => ({ value: g.id, label: g.name }))];
 
   const handleChange = (type: FilterOption, value: string) => {
     onUserInput(type, value);
@@ -63,70 +57,102 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
     handleChange("title", e.target.value);
   };
 
-  const handleGenreChange = (e: SelectChangeEvent) => {
-    handleChange("genre", e.target.value);
+  const handleGenreChange = (e: React.ChangeEvent<{ value: unknown }>) => {
+    handleChange("genre", e.target.value as string);
   };
 
-  const handleSortChange = (order: string) => {
-    setSortOrder(order); // Update the sort order state
-    onSortOrderChange(order); // Trigger the sort order change in the parent component
+  const handleSortChange = (e: React.ChangeEvent<{ value: unknown }>) => {
+    const order = e.target.value as string;
+    setSortOrder(order);
+    onSortOrderChange(order);
+  };
+
+  const handleRatingChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    setRatingFilter(value);
+    handleChange("rating", value.toString());
+  };
+
+  const handleReleaseDateStartChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setReleaseDateStart(e.target.value);
+    handleChange("release_date_start", e.target.value);
+  };
+
+  const handleReleaseDateEndChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setReleaseDateEnd(e.target.value);
+    handleChange("release_date_end", e.target.value);
   };
 
   return (
-    <>
-      <Card sx={styles.root} variant="outlined">
-        <CardContent>
+    <Card sx={styles.card} variant="outlined">
+      <CardContent>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography variant="h5" component="h1">
             <FilterAltIcon fontSize="large" />
             Filter the movies.
           </Typography>
-          <TextField
-            sx={styles.formControl}
-            id="filled-search"
+          <IconButton
+            sx={styles.iconButton}
+            onClick={() => setOpenFilters(!openFilters)}
+          >
+            {openFilters ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </IconButton>
+        </Box>
+        <Collapse in={openFilters}>
+          <CustomTextField
+            id="title-filter"
             label="Search field"
             type="search"
             value={titleFilter}
-            variant="filled"
             onChange={handleTextChange}
           />
-          <FormControl sx={styles.formControl}>
-            <Select
-              labelId="genre-label"
-              id="genre-select"
-              value={genreFilter}
-              onChange={handleGenreChange}
-              sx={styles.select}
-            >
-              {genres.map((genre) => (
-                <MenuItem key={genre.id} value={genre.id}>
-                  {genre.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </CardContent>
-      </Card>
-      <Card sx={styles.root} variant="outlined">
-        <CardContent>
+          <CustomSelect
+            value={genreFilter}
+            onChange={handleGenreChange}
+            options={genreOptions}
+            label="Genre"
+          />
+          <CustomTextField
+            id="rating-filter"
+            label="Rating"
+            type="number"
+            value={ratingFilter}
+            onChange={handleRatingChange}
+          />
+          <CustomTextField
+            id="release-date-start"
+            label="Release Date Start"
+            type="date"
+            value={releaseDateStart}
+            onChange={handleReleaseDateStartChange}
+          />
+          <CustomTextField
+            id="release-date-end"
+            label="Release Date End"
+            type="date"
+            value={releaseDateEnd}
+            onChange={handleReleaseDateEndChange}
+          />
+        </Collapse>
+      </CardContent>
+      <CardContent>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography variant="h5" component="h1">
             <SortIcon fontSize="large" />
             Sort the movies.
           </Typography>
-          <FormControl sx={styles.formControl}>
-            <Select
-              labelId="sort-label"
-              id="sort-select"
-              value={sortOrder}
-              onChange={(e) => handleSortChange(e.target.value)}
-              sx={styles.select}
-            >
-              <MenuItem value="asc">Ascending</MenuItem>
-              <MenuItem value="desc">Descending</MenuItem>
-            </Select>
-          </FormControl>
-        </CardContent>
-      </Card>
-    </>
+        </Box>
+        <CustomSelect
+          value={sortOrder}
+          onChange={handleSortChange}
+          options={[
+            { value: 'asc', label: 'Ascending' },
+            { value: 'desc', label: 'Descending' },
+          ]}
+          label="Sort Order"
+        />
+      </CardContent>
+    </Card>
   );
 };
 
