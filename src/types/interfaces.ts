@@ -56,12 +56,21 @@ export interface BaseMovieListProps {
   action: (m: BaseMovieProps) => React.ReactNode;
 }
 
+export interface ReviewAuthor{
+  avatar_path: string,
+  name:string,
+  rating:number,
+  username:string,
+}
 export interface Review {
   author: string,
   content: string,
   agree: boolean,
   rating: number,
   movieId: number,
+  created_at:string,
+  author_details:ReviewAuthor,
+
 }
 export interface GenreData {
   genres: {

@@ -9,10 +9,10 @@ import { Link } from "react-router-dom";
 
 const styles = {
   castContainer: {
-    maxWidth: "84%", 
+    maxWidth: "100%", 
     overflowX: "auto",
     whiteSpace: "nowrap" as const,
-    padding: "20px",
+    padding: "20px 0",
   },
   castCard: {
     display: "inline-block",
