@@ -1,4 +1,4 @@
-import React, { MouseEvent } from "react";
+import React, { MouseEvent,useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -8,11 +8,13 @@ import { styled } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
+import { AuthContext } from '../../contexts/authContext';
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Container } from "@mui/material";
+import { Container, Theme } from "@mui/material";
 import ThemeToggle from '../../themeToggle';
+import LogoutButton from '../LogoutButton'
 
 const styles = {
   title: {
@@ -21,13 +23,14 @@ const styles = {
 };
 
 interface HeaderProps {
-  theme: Theme; // Changed to Theme type
+  theme: Theme; 
   toggleTheme: () => void;
 }
 
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
 const SiteHeader: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
+  const { token } = useContext(AuthContext) || {};
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
   const open = Boolean(anchorEl);
@@ -112,6 +115,13 @@ const SiteHeader: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
               </>
             )}
             <ThemeToggle theme={theme.palette.mode} toggleTheme={toggleTheme} />
+            {token ? (
+        <LogoutButton />
+      ) : (
+        <Button variant="contained" color="primary" component={Link} to="/login">
+          Login
+        </Button>
+      )}
           </Toolbar>
         </Container>
       </AppBar>

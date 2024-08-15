@@ -31,7 +31,8 @@ const AuthContextProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
 
   const signout = () => {
     setToken(null);
-    localStorage.removeItem('token'); 
+    localStorage.removeItem('token');
+    // navigate('/login', { replace: true });
   };
 
   return (
