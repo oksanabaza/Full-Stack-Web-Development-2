@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from "react";
+import React, { MouseEvent } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -9,7 +9,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
-import { useTheme, Theme } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Container } from "@mui/material";
 import ThemeToggle from '../../themeToggle';
@@ -21,7 +21,7 @@ const styles = {
 };
 
 interface HeaderProps {
-  theme: Theme;
+  theme: Theme; // Changed to Theme type
   toggleTheme: () => void;
 }
 
@@ -29,9 +29,9 @@ const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
 const SiteHeader: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
   const open = Boolean(anchorEl);
-  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("lg")); // Use theme from props
 
   const menuOptions = [
     { label: "Home", path: "/" },
@@ -115,7 +115,6 @@ const SiteHeader: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
           </Toolbar>
         </Container>
       </AppBar>
-
       <Offset />
     </>
   );

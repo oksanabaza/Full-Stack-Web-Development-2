@@ -1,27 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
 import HomePage from "./pages/homePage";
 import MoviePage from "./pages/movieDetailsPage";
 import FavouriteMoviesPage from "./pages/favouriteMoviesPage";
 import MovieReviewPage from "./pages/movieReviewPage";
-import SiteHeader from './components/siteHeader';
+import SiteHeader from "./components/siteHeader";
 import UpcomingMoviePage from "./pages/upcomingMoviesPage";
-import TvShowsPage from './pages/tvShowsPage';
+import TvShowsPage from "./pages/tvShowsPage";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import MoviesContextProvider from "./contexts/moviesContext";
-import AddMovieReviewPage from './pages/addMovieReviewPage';
+import AddMovieReviewPage from "./pages/addMovieReviewPage";
 import PopularMoviesPage from "./pages/PopularMoviesPage";
 import TVSeriesPage from "./pages/TVSeriesPage";
-import ActorsPage from './pages/ActorsPage';
-import LoginPage from './pages/loginPage';
-import ProtectedRoute from './components/protectedRoute';
+import ActorsPage from "./pages/ActorsPage";
+import LoginPage from "./pages/loginPage";
+import ProtectedRoute from "./components/protectedRoute";
 import AuthProvider from "./contexts/authContext";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { CssBaseline, Container } from "@mui/material";
-import { lightTheme, darkTheme } from './theme';
-import "./styles.css"; 
+import { ThemeProvider, CssBaseline, Container, useMediaQuery, Theme } from "@mui/material";
+import { lightTheme, darkTheme } from "./theme";
+import "./styles.css";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,7 +33,8 @@ const queryClient = new QueryClient({
 });
 
 const App: React.FC = () => {
-  const [themeMode, setThemeMode] = useState<'light' | 'dark'>('light');
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+  const [themeMode, setThemeMode] = useState<'light' | 'dark'>(prefersDarkMode ? 'dark' : 'light');
 
   const toggleTheme = () => {
     setThemeMode((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
