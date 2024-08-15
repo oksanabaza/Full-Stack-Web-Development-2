@@ -37,7 +37,7 @@ const { favourites, addToFavourites } = useContext(MoviesContext);//NEW
 const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
 
   return (
-    <Tooltip title="Add" placement="bottom">
+    <Tooltip title={movie.title} placement="bottom">
     <Card sx={styles.card}>
         {/* <Tooltip title="Add" placement="top"> */}
       {/* <CardHeader

@@ -29,11 +29,12 @@ const HomePage: React.FC = () => {
   const [sortOrder, setSortOrder] = useState("desc");
   const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(
     ["discover", page, sortOrder],
-    () => getSortedByPopularity(sortOrder, page), // Ensure you pass the page
+    () => getSortedByPopularity(sortOrder, page),
     {
       keepPreviousData: true,
     }
   );
+
   const { filterValues, setFilterValues, filterFunction } = useFiltering([
     titleFiltering,
     genreFiltering,
@@ -42,9 +43,19 @@ const HomePage: React.FC = () => {
   if (isLoading) {
     return <Spinner />;
   }
+
   if (isError) {
     return <h1>{error.message}</h1>;
   }
+
+  // Step 1: Apply filtering
+  const movies = data?.results || [];
+  const filteredMovies = filterFunction(movies);
+
+  // Step 2: Calculate pagination based on filtered movies
+  const moviesPerPage = 20; // Adjust as per your requirement
+  const paginatedMovies = filteredMovies.slice((page - 1) * moviesPerPage, page * moviesPerPage);
+  const pageCount = Math.ceil(filteredMovies.length / moviesPerPage);
 
   const changeFilterValues = (type: string, value: string) => {
     const changedFilter = { name: type, value: value };
@@ -53,19 +64,14 @@ const HomePage: React.FC = () => {
         ? [changedFilter, filterValues[1]]
         : [filterValues[0], changedFilter];
     setFilterValues(updatedFilterSet);
+    setPage(1); // Reset to the first page after filtering
   };
-
-  const movies = data ? data.results : [];
-  const displayedMovies = filterFunction(movies);
-
-  const favourites = movies.filter((m) => m.favourite);
-  localStorage.setItem("favourites", JSON.stringify(favourites));
 
   const addToFavourites = (movieId: number) => true;
 
   return (
-    <Grid container spacing={1}>
-      <Grid item xs={3}>
+    <Grid container spacing={1} mt={10}>
+      <Grid item xs={3} >
         <MovieFilterUI
           onFilterValuesChange={changeFilterValues}
           titleFilter={filterValues[0].value}
@@ -76,7 +82,7 @@ const HomePage: React.FC = () => {
       <Grid item xs={9}>
         <PageTemplate
           title="Discover Movies"
-          movies={displayedMovies}
+          movies={paginatedMovies}
           selectFavourite={addToFavourites}
           action={(movie: BaseMovieProps) => {
             return <AddToFavouritesIcon {...movie} />;
@@ -84,9 +90,9 @@ const HomePage: React.FC = () => {
         />
         <Box sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
           <CustomPagination
-            count={data?.total_pages || 0}
+            count={pageCount}
             page={page}
-            onChange={(_event, value) => setPage(Math.min(value, 500))}
+            onChange={(_event, value) => setPage(value)}
           />
         </Box>
       </Grid>

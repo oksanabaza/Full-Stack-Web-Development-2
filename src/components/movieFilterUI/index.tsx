@@ -2,19 +2,22 @@ import React from "react";
 import FilterCard from "../filterMoviesCard";
 import { BaseMovieProps } from "../../types/interfaces";
 
+// Function to filter movies by title
 export const titleFilter = (movie: BaseMovieProps, value: string): boolean => {
-  return movie.title.toLowerCase().search(value.toLowerCase()) !== -1;
+  return movie.title.toLowerCase().includes(value.toLowerCase());
 };
 
-export const genreFilter = (movie: BaseMovieProps, value: string) => {
+// Function to filter movies by genre
+export const genreFilter = (movie: BaseMovieProps, value: string): boolean => {
   const genreId = Number(value);
   const genreIds = movie.genre_ids;
-  return genreId > 0 && genreIds ? genreIds.includes(genreId) : true;
+  // If genreId is 0 or not provided, all genres should be included (no filtering)
+  return genreId === 0 || (genreIds && genreIds.includes(genreId));
 };
 
 const styles = {
   root: {
-
+    marginBottom: '20px',
   },
 };
 
@@ -25,7 +28,12 @@ interface MovieFilterUIProps {
   onSortOrderChange: (order: string) => void;
 }
 
-const MovieFilterUI: React.FC<MovieFilterUIProps> = ({ onFilterValuesChange, titleFilter, genreFilter, onSortOrderChange }) => {
+const MovieFilterUI: React.FC<MovieFilterUIProps> = ({
+  onFilterValuesChange,
+  titleFilter,
+  genreFilter,
+  onSortOrderChange,
+}) => {
   return (
     <div style={styles.root}>
       <FilterCard
