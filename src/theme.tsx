@@ -1,29 +1,25 @@
 import { createTheme } from '@mui/material/styles';
 
-const theme = createTheme({
+export const lightTheme = createTheme({
   palette: {
-    background: {
-      default: '#1a1a1a', 
-      paper: '#333333', 
-    },
-    text: {
-      primary: '#ffffff',
-    },
+    mode: 'light',
     primary: {
-      main: '#1976d2', 
-      dark: '#115293', 
+      main: '#1976d2',
     },
-  },
-  components: {
-
-    MuiCard: {
-      styleOverrides: {
-        root: {
-          backgroundColor: '#333333',
-        },
-      },
+    background: {
+      default: '#ffffff',
     },
   },
 });
 
-export default theme;
+export const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#90caf9',
+    },
+    background: {
+      default: '#121212',
+    },
+  },
+});

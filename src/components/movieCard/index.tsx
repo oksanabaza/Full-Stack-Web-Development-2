@@ -20,7 +20,7 @@ import Tooltip from '@mui/material/Tooltip';
 
 const styles = {
   card: { maxWidth: 345 },
-  media: { height: 500 },
+  media: { height: 300 },
   avatar: {
     backgroundColor: "rgb(255, 0, 0)",
   },
@@ -37,7 +37,7 @@ const { favourites, addToFavourites } = useContext(MoviesContext);//NEW
 const isFavourite = favourites.find((id) => id === movie.id)? true : false;//NEW
 
   return (
-    <Tooltip title="Add" placement="bottom">
+    <Tooltip title={movie.title} placement="bottom">
     <Card sx={styles.card}>
         {/* <Tooltip title="Add" placement="top"> */}
       {/* <CardHeader

@@ -124,7 +124,6 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, children }
                     {value === 2 && (
                         <Box>
                             <h2>Reviews</h2>
-                            <p>Here you can show the reviews or any other content related to the reviews tab.</p>
                             <MovieReviews {...movie}/>
                         </Box>
                     )}
