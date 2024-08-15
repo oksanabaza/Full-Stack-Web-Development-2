@@ -9,8 +9,8 @@ import { DiscoverMovies } from "../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import Box from '@mui/material/Box';
-import Pagination from '@mui/material/Pagination';
 import Grid from "@mui/material/Grid";
+import CustomPagination from '../components/CustomPagination';
 
 const titleFiltering = {
   name: "title",
@@ -29,7 +29,7 @@ const HomePage: React.FC = () => {
   const [sortOrder, setSortOrder] = useState("desc");
   const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(
     ["discover", page, sortOrder],
-    () => getSortedByPopularity(sortOrder),
+    () => getSortedByPopularity(sortOrder, page), // Ensure you pass the page
     {
       keepPreviousData: true,
     }
@@ -73,7 +73,7 @@ const HomePage: React.FC = () => {
           onSortOrderChange={setSortOrder}
         />
       </Grid>
-      <Grid item xs={8}>
+      <Grid item xs={9}>
         <PageTemplate
           title="Discover Movies"
           movies={displayedMovies}
@@ -83,19 +83,10 @@ const HomePage: React.FC = () => {
           }}
         />
         <Box sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
-          <Pagination
+          <CustomPagination
             count={data?.total_pages || 0}
             page={page}
-            onChange={(_event, value) => setPage(value)}
-            color="primary"
-            sx={{
-              '& .MuiPaginationItem-root': {
-                color: 'white',
-              },
-              '& .MuiPaginationItem-ellipsis': {
-                color: 'white',
-              },
-            }}
+            onChange={(_event, value) => setPage(Math.min(value, 500))}
           />
         </Box>
       </Grid>

@@ -20,7 +20,7 @@ import Tooltip from '@mui/material/Tooltip';
 
 const styles = {
   card: { maxWidth: 345 },
-  media: { height: 500 },
+  media: { height: 300 },
   avatar: {
     backgroundColor: "rgb(255, 0, 0)",
   },
