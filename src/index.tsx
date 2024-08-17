@@ -22,6 +22,7 @@ import { ThemeProvider, CssBaseline, Container, useMediaQuery, Theme } from "@mu
 import { lightTheme, darkTheme } from "./theme";
 import "./styles.css";
 
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

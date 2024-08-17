@@ -89,6 +89,8 @@ export interface AuthContextInterface {
   token: string | null;
   authenticate: ((username: string, password: string) => void);
   signout: () => void;
+  user: string;
+  loading:boolean;
 }
 export interface MovieCastMember {
   id: number;
