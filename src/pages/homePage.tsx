@@ -11,6 +11,7 @@ import Spinner from "../components/spinner";
 import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
 import Grid from "@mui/material/Grid";
+import { useTheme } from '@mui/material/styles';
 
 const titleFiltering = {
   name: "title",
@@ -27,6 +28,7 @@ const genreFiltering = {
 const MAX_PAGES = 500;
 
 const HomePage: React.FC = () => {
+  const theme = useTheme();
   const [page, setPage] = useState(1);
   const [sortOrder, setSortOrder] = useState("desc");
   const { filterValues, setFilterValues, filterFunction } = useFiltering([
@@ -101,7 +103,7 @@ const HomePage: React.FC = () => {
       <Grid item xs={9}>
         <PageTemplate
           title="Discover Movies"
-          movies={sortedMovies} // Use the sorted list here
+          movies={sortedMovies} 
           selectFavourite={addToFavourites}
           action={(movie: BaseMovieProps) => <AddToFavouritesIcon {...movie} />}
         />
@@ -117,10 +119,10 @@ const HomePage: React.FC = () => {
             color="primary"
             sx={{
               '& .MuiPaginationItem-root': {
-                color: 'white',
+                color: theme.palette.mode === 'dark' ? 'white' : theme.palette.text.primary,
               },
               '& .MuiPaginationItem-ellipsis': {
-                color: 'white',
+                color: theme.palette.mode === 'dark' ? 'white' : theme.palette.text.primary,
               },
             }}
           />

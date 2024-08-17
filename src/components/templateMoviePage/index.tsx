@@ -11,7 +11,7 @@ import CastMembers from './../castMembers';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import MovieReviews from '../movieReviews'
+import MovieReviews from '../movieReviews';
 
 const styles = {
     gridListTile: {
@@ -24,25 +24,25 @@ const styles = {
         border: "none",
     },
     tabs: {
-        color: "white", // Tab text color
-        // backgroundColor: "black", // Background color of the tabs
+        color: "white",
     },
     tab: {
-        color: "white", // Text color of each tab
+        color: "white",
         "&.Mui-selected": {
-            color: "white", // Color of the selected tab
-            borderBottom: "2px solid white", // Highlight the selected tab
+            color: "white",
+            borderBottom: "2px solid white",
         },
     },
 };
 
 interface TemplateMoviePageProps {
     movie: MovieDetailsProps;
+    trailerKey: string | null;  
     children: React.ReactElement;
 }
 
-const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, children }) => {
-    const [value, setValue] = useState(0); // State for managing the selected tab
+const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, trailerKey, children }) => {
+    const [value, setValue] = useState(0);
 
     const { data, error, isLoading, isError } = useQuery<MovieImage[], Error>(
         ["images", movie.id],
@@ -84,17 +84,20 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, children }
                     )}
                 </Grid>
                 <Grid item xs={8} mt={2} mb={2}>
-                    <iframe
-                        title="YouTube Video"
-                        style={styles.iframe}
-                        src="https://www.youtube.com/embed/UwdWkxEjCKU"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                    ></iframe>
+                    {trailerKey ? (
+                        <iframe
+                            title="YouTube Trailer"
+                            style={styles.iframe}
+                            src={`https://www.youtube.com/embed/${trailerKey}`}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                        ></iframe>
+                    ) : (
+                        <p>Trailer not available</p>
+                    )}
                 </Grid>
             </Grid>
 
-            {/* Tabs Section */}
             <Grid item xs={12}>
                 <Tabs
                     value={value}
@@ -107,7 +110,6 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, children }
                     <Tab label="Reviews" sx={styles.tab} />
                 </Tabs>
 
-                {/* Tab Content */}
                 <Box sx={{ p: 3 }}>
                     {value === 0 && (
                         <Box>

@@ -302,3 +302,17 @@ export const searchMoviesByTitle = (query: string, page: number, sort_value: str
     throw error;
   });
 };
+
+export const getMovieTrailer = (movieId: number) => {
+  return fetch(
+    `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US`
+  )
+  .then((res) => res.json())
+  .then((data) => {
+    const trailer = data.results.find((video: any) => video.type === 'Trailer' && video.site === 'YouTube');
+    return trailer ? trailer.key : null; 
+  })
+  .catch((error) => {
+    throw error;
+  });
+};
