@@ -122,7 +122,6 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, trailerKey
                             <h2>Overview</h2>
                             {children}
 
-                            {/* CardActions for interactive elements */}
                             <CardActions disableSpacing>
                                 {!isFavourite && (
                                     <Button
@@ -131,7 +130,7 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, trailerKey
                                         startIcon={<FavoriteIcon />}
                                         onClick={() => addToFavourites(movie)}
                                     >
-                                        Add to Favorites
+                                        Save for later
                                     </Button>
                                 )}
                                       {!!isFavourite && (
@@ -139,7 +138,6 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, trailerKey
                                         variant="contained"
                                         color="primary"
                                         startIcon={<FavoriteIcon />}
-                                        // onClick={() => addToFavourites(movie)}
                                     >
                                         Saved for later
                                     </Button>

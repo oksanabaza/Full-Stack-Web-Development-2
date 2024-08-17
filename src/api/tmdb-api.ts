@@ -24,7 +24,21 @@ export const getMovie = (id: string) => {
     throw error
  });
 };
-  
+  export const getTvSeriesDetails = (id: string) => {
+  return fetch(
+    `https://api.themoviedb.org/3/tv/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
+  )
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`Failed to get TV series data. Response status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .catch((error) => {
+    throw error;
+  });
+};
+
   export const getGenres = () => {
     return fetch(
       "https://api.themoviedb.org/3/genre/movie/list?api_key=" + import.meta.env.VITE_TMDB_KEY + "&language=en-US"
@@ -73,6 +87,7 @@ export const getMovie = (id: string) => {
       .then(res => res.json())
       // .then(json => json.results);
   };
+  
   export const getPeople = () => {
     return fetch(
       `https://api.themoviedb.org/3/trending/person/day?api_key=${import.meta.env.VITE_TMDB_KEY}`
@@ -316,3 +331,4 @@ export const getMovieTrailer = (movieId: number) => {
     throw error;
   });
 };
+
