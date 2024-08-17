@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-import { FilterOption, GenreData } from "../../types/interfaces";
+import React, {useState} from "react";
+import { FilterOption } from "../../types/interfaces";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SortIcon from '@mui/icons-material/Sort';
-import { getGenres } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from '../spinner';
 import Collapse from "@mui/material/Collapse";
@@ -15,6 +14,8 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import CustomTextField from '../CustomTextField';
+import { getGenres } from "../../api/tmdb-api";
+import { GenreData } from "../../types/interfaces";
 
 interface FilterMoviesCardProps {
   onUserInput: (f: FilterOption, s: string) => void;
@@ -22,24 +23,6 @@ interface FilterMoviesCardProps {
   genreFilter: string;
   onSortOrderChange: (order: string) => void;
 }
-
-const styles = {
-  card: {
-    maxWidth: 345,
-    marginBottom: 2,
-    minHeight: 250,
-    transition: 'height 0.3s ease',
-  },
-  iconButton: {
-    marginLeft: 'auto',
-  },
-  chipContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: 0.5,
-    marginTop: 1,
-  },
-};
 
 const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreFilter, onUserInput, onSortOrderChange }) => {
   const { data, error, isLoading, isError } = useQuery<GenreData, Error>("genres", getGenres);
@@ -101,7 +84,7 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
   };
 
   return (
-    <Card sx={styles.card} variant="outlined">
+    <Card sx={{ maxWidth: 345, marginBottom: 2, minHeight: 250, transition: 'height 0.3s ease' }} variant="outlined">
       <CardContent>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography variant="h5" component="h1">
@@ -109,7 +92,7 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
             Filter the movies.
           </Typography>
           <IconButton
-            sx={styles.iconButton}
+            sx={{ marginLeft: 'auto' }}
             onClick={() => setOpenFilters(!openFilters)}
           >
             {openFilters ? <ExpandLessIcon /> : <ExpandMoreIcon />}
@@ -123,7 +106,7 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
             value={titleFilter}
             onChange={handleTextChange}
           />
-          <Box sx={styles.chipContainer}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, marginTop: 1 }}>
             {genres.map((genre) => (
               <Chip
                 key={genre.id}

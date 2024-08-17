@@ -293,3 +293,12 @@ export const getMoviesByGenre = (genreId: number, page: number,sort_value: strin
   });
 }
 
+export const searchMoviesByTitle = (query: string, page: number, sort_value: string) => {
+  return fetch(
+    `https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&query=${encodeURIComponent(query)}&page=${page}&sort_by=popularity.${sort_value}`
+  )
+  .then((res) => res.json())
+  .catch((error) => {
+    throw error;
+  });
+};
