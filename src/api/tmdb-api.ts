@@ -283,9 +283,9 @@ export const getSortedByPopularity = (sort_value: string, page: number)=>{
   });
 }
 
-export const getMoviesByGenre = (genreId: number, page: number)=>{
+export const getMoviesByGenre = (genreId: number, page: number,sort_value: string)=>{
   return fetch(
-    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&with_genres=${genreId}&page=${page}`
+    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&with_genres=${genreId}&page=${page}&sort_by=popularity.${sort_value}`
   )
   .then((res) => res.json())
   .catch((error) => {

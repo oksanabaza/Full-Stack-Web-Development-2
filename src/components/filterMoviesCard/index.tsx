@@ -14,7 +14,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
-import CustomTextField from '../CustomTextField'; // Adjust path if needed
+import CustomTextField from '../CustomTextField';
 
 interface FilterMoviesCardProps {
   onUserInput: (f: FilterOption, s: string) => void;
@@ -95,6 +95,11 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
     onUserInput("release_date_end", e.target.value);
   };
 
+  const handleSortChipClick = (order: string) => {
+    setSortOrder(order);
+    onSortOrderChange(order);
+  };
+
   return (
     <Card sx={styles.card} variant="outlined">
       <CardContent>
@@ -159,17 +164,20 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreF
             Sort the movies.
           </Typography>
         </Box>
-        <CustomTextField
-          id="sort-order"
-          label="Sort Order"
-          select
-          value={sortOrder}
-          onChange={handleSortChange}
-          SelectProps={{ native: true }}
-        >
-          <option value="asc">Ascending</option>
-          <option value="desc">Descending</option>
-        </CustomTextField>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+          <Chip
+            label="Ascending"
+            clickable
+            color={sortOrder === "asc" ? "primary" : "default"}
+            onClick={() => handleSortChipClick("asc")}
+          />
+          <Chip
+            label="Descending"
+            clickable
+            color={sortOrder === "desc" ? "primary" : "default"}
+            onClick={() => handleSortChipClick("desc")}
+          />
+        </Box>
       </CardContent>
     </Card>
   );

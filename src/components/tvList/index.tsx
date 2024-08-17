@@ -9,7 +9,7 @@ const TVShowList: React.FC<BaseTvShowListProps> = ({ tvShows, action }) => {
   // eslint-disable-next-line prefer-const
   let tvShowCards = tvShows.map((tvShow: BaseTvShowProps) => (
     <Grid key={tvShow.id} item xs={12} sm={6} md={4} lg={3} xl={3}   sx={{
-      backgroundColor: theme.palette.mode === 'dark' ? '#1a1a1a' : '#ffffff', 
+      backgroundColor: theme.palette.mode === 'dark' ? 'black' : '#ffffff', 
       color: theme.palette.mode === 'dark' ? 'white' : 'black', 
       paddingBottom: "10px",
     }}>
