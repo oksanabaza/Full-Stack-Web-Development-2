@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import MovieHeader from "../headerMovie";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
@@ -12,6 +12,10 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import MovieReviews from '../movieReviews';
+import CardActions from "@mui/material/CardActions";
+import Button from "@mui/material/Button";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { MoviesContext } from "../../contexts/moviesContext";
 
 const styles = {
     gridListTile: {
@@ -42,6 +46,7 @@ interface TemplateMoviePageProps {
 }
 
 const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, trailerKey, children }) => {
+    const { favourites, addToFavourites } = useContext(MoviesContext) || { favourites: [], addToFavourites: () => {} };
     const [value, setValue] = useState(0);
 
     const { data, error, isLoading, isError } = useQuery<MovieImage[], Error>(
@@ -59,6 +64,7 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, trailerKey
 
     const images = data as MovieImage[];
     const firstImage = images.length > 0 ? images[0] : null;
+    const isFavourite = favourites.includes(movie.id);
 
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -115,6 +121,30 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, trailerKey
                         <Box>
                             <h2>Overview</h2>
                             {children}
+
+                            {/* CardActions for interactive elements */}
+                            <CardActions disableSpacing>
+                                {!isFavourite && (
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        startIcon={<FavoriteIcon />}
+                                        onClick={() => addToFavourites(movie)}
+                                    >
+                                        Add to Favorites
+                                    </Button>
+                                )}
+                                      {!!isFavourite && (
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        startIcon={<FavoriteIcon />}
+                                        // onClick={() => addToFavourites(movie)}
+                                    >
+                                        Saved for later
+                                    </Button>
+                                )}
+                            </CardActions>
                         </Box>
                     )}
                     {value === 1 && (
