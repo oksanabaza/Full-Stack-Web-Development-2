@@ -6,8 +6,7 @@
       "build": {
         "env": {
           "NODE_ENV": "production"
-        },
-        "ignoreBuildErrors": true
+        }
       }
     
   }
