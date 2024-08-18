@@ -9,7 +9,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { Link, useNavigate } from "react-router-dom";
-import { useTheme } from "@mui/material/styles";
+// import { useTheme } from "@mui/material/styles";
 import { AuthContext } from '../../contexts/authContext';
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Container, Theme } from "@mui/material";

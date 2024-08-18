@@ -2,7 +2,7 @@ import React from "react";
 import PageTemplate from "../../components/templateMovieListPage";
 import AddToFavouritesIcon from "../../components/cardIcons/addToFavourites";
 import { BaseMovieProps } from "../../types/interfaces";
-import { getMovies } from "../../api/tmdb-api";
+// import { getMovies } from "../../api/tmdb-api";
 import useFiltering from "../../hooks/useFiltering";
 import MovieFilterUI, {
   titleFilter,
@@ -22,8 +22,8 @@ const genreFiltering = {
   value: "0",
   condition: genreFilter,
 };
-const HomePage: React.FC = () => {
-  const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>("discover", getMovies);
+const HomePage: React.FC = ({ movieId }) => {
+  const { data, error, isLoading, isError, movieId } = useQuery<DiscoverMovies, Error>("discover");
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [titleFiltering, genreFiltering]
   );
@@ -45,10 +45,10 @@ const HomePage: React.FC = () => {
   const displayedMovies = filterFunction(movies);
 
   // Redundant, but necessary to avoid app crashing.
-  const favourites = movies.filter(m => m.favourite)
+  const favourites = movies.filter((m) => m.favourite)
   localStorage.setItem("favourites", JSON.stringify(favourites));
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const addToFavourites = (movieId: number) => true;
+  const addToFavourites = () => true;
 
   return (
     <>
@@ -64,6 +64,7 @@ const HomePage: React.FC = () => {
         onFilterValuesChange={changeFilterValues}
         titleFilter={filterValues[0].value}
         genreFilter={filterValues[1].value}
+        onSortOrderChange={() => {}}
       />
     </>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
 import HomePage from "./pages/homePage";
@@ -18,7 +18,7 @@ import ActorsPage from "./pages/ActorsPage";
 import LoginPage from "./pages/loginPage";
 import ProtectedRoute from "./components/protectedRoute";
 import AuthProvider from "./contexts/authContext";
-import { ThemeProvider, CssBaseline, Container, useMediaQuery, Theme } from "@mui/material";
+import { ThemeProvider, CssBaseline, Container, useMediaQuery } from "@mui/material";
 import { lightTheme, darkTheme } from "./theme";
 import "./styles.css";
 import AllActorsPage from './components/AllActorsPage'

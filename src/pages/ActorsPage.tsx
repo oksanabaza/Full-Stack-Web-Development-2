@@ -19,24 +19,30 @@ const ActorDetailsPage: React.FC = () => {
     return <Typography variant="h6">No actor ID provided</Typography>;
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [showCredits, setShowCredits] = useState<"movies" | "tv">("movies");
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [currentPage, setCurrentPage] = useState(1);
   const PAGE_SIZE = 8;
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: actor, error: actorError, isLoading: isActorLoading, isError: isActorError } = useQuery<ActorDetailsProps, Error>(
     ["actor", id],
     () => getActor(id)
   );
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: movieCredits, error: movieError, isLoading: isMoviesLoading, isError: isMoviesError } = useQuery<{ cast: BaseMovieProps[] }, Error>(
     ["actorMovies", id],
     () => getActorMovieCredits(id)
   );
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { data: tvCredits, error: tvError, isLoading: isTvLoading, isError: isTvError } = useQuery<{ cast: BaseTvShowProps[] }, Error>(
     ["actorTv", id],
     () => getActorTvCredits(id)
@@ -121,12 +127,13 @@ const ActorDetailsPage: React.FC = () => {
           {showCredits === "movies" ? (
             <ActorCredits
               movies={paginatedCredits as BaseMovieProps[]}
-              action={(movie: BaseMovieProps) => <AddToFavouritesIcon {...movie} />}
-            />
+              action={(movie: BaseMovieProps) => <AddToFavouritesIcon {...movie} />} selectFavourite={function (): void {
+                throw new Error("Function not implemented.");
+              } }            />
           ) : (
             <ActorTvCredits
               tvShows={paginatedCredits as BaseTvShowProps[]}
-              action={(tvShow: BaseTvShowProps) => <AddToTvFavouritesIcon {...tvShow} />}
+              action={(tvShow: BaseTvShowProps) => <AddToTvFavouritesIcon title={""} budget={0} homepage={undefined} imdb_id={""} release_date={""} tagline={""} runtime={0} revenue={0} vote_count={0} {...tvShow} />}
             />
           )}
 

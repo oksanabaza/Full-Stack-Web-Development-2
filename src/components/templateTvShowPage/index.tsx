@@ -71,7 +71,7 @@ const TemplateTvShowPage: React.FC<TemplateTvShowPageProps> = ({ tvShow, childre
     window.scrollTo(0, 0);
   }, []);
 
-  const { data: imagesData, error: imagesError, isLoading: imagesLoading, isError: isImagesError } = useQuery<
+  const {  error: imagesError, isLoading: imagesLoading, isError: isImagesError } = useQuery<
     { posters: TvImage[]; backdrops: TvImage[] },
     Error
   >(["images", tvShow.id], () => getTvShowImages(tvShow.id));
@@ -115,17 +115,18 @@ const TemplateTvShowPage: React.FC<TemplateTvShowPageProps> = ({ tvShow, childre
 
   const irelandProviders = watchProvidersData?.results?.IE?.flatrate || [];
 
-  const { backdrops } = imagesData as {
-    posters: TvImage[];
-    backdrops: TvImage[];
-  };
+  // const { backdrops } = imagesData as {
+  //   posters: TvImage[];
+  //   backdrops: TvImage[];
+  // };
 
   const trailer = videosData?.results.find((video) => video.type === "Trailer" && video.site === "YouTube");
 
-  const backdropUrl =
-    backdrops.length > 0
-      ? `url(https://image.tmdb.org/t/p/original/${backdrops[0].file_path})`
-      : "url(https://via.placeholder.com/1920x1080?text=Backdrop+Not+Available)";
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // const backdropUrl =
+  //   backdrops.length > 0
+  //     ? `url(https://image.tmdb.org/t/p/original/${backdrops[0].file_path})`
+  //     : "url(https://via.placeholder.com/1920x1080?text=Backdrop+Not+Available)";
 
   const contentContainerStyle = {
     ...styles.contentContainer,

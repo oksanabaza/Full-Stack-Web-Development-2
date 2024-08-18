@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, ReactNode } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { AuthContextInterface } from "../types/interfaces";
 import { supabase } from "../supabaseClient"; 
 
@@ -11,7 +11,7 @@ interface AuthContextProviderProps {
 
 const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) => {
   const [token, setToken] = useState<string | null>(null);
-  const location = useLocation();
+  // const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) =
     getSession();
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      (_event, session) => {
         if (session) {
           setToken(session.access_token);
           localStorage.setItem('token', JSON.stringify(session.access_token));
@@ -76,7 +76,9 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ children }) =
   const contextValue: AuthContextInterface = {
     token,
     authenticate: authenticateWithGithub,
-    signout
+    signout,
+    user: "",
+    loading: false
   };
 
   return (

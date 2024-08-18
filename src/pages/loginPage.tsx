@@ -8,7 +8,7 @@ const LoginPage: React.FC = () => {
 
   const handleGithubLogin = () => {
     if (authContext?.authenticate) {
-      authContext.authenticate(); 
+      authContext.authenticate("",""); 
     }
   };
 

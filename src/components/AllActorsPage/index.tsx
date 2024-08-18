@@ -9,6 +9,7 @@ import { DiscoverPeopleProps } from "../../types/interfaces";
 const PLACEHOLDER_IMAGE = "https://via.placeholder.com/500x750?text=No+Image";
 
 const ActorsPage: React.FC = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const PAGE_SIZE = 8;

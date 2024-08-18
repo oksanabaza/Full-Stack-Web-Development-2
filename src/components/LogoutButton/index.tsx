@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { AuthContext } from '../../contexts/authContext';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 const LogoutButton: React.FC = () => {
   const { signout } = useContext(AuthContext) || {};
   const [open, setOpen] = React.useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);

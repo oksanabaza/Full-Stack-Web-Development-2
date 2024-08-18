@@ -57,11 +57,14 @@ export default {
       origin_country: "US",
     },
   ],
+  // production_countries: [
+  //   {
+  //     iso_3166_1: "US",
+  //     name: "United States of America",
+  //   },
+  // ],
   production_countries: [
-    {
-      iso_3166_1: "US",
-      name: "United States of America",
-    },
+    { iso_3166_1: 1, name: "United States of America" } 
   ],
   release_date: "2017-12-13",
   revenue: 1332459537,

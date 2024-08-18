@@ -6,7 +6,6 @@ import { getPopularMovies } from "../api/tmdb-api";
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { Link } from 'react-router-dom';
 import Container from '@mui/material/Container';

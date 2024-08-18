@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
+// import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -24,7 +24,7 @@ interface FilterMoviesCardProps {
 
 const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({
   titleFilter,
-  genreFilter,
+  // genreFilter,
   onUserInput,
   onSortOrderChange,
 }) => {

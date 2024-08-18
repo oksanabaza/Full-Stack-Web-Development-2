@@ -16,6 +16,7 @@ import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { MoviesContext } from "../../contexts/moviesContext";
+import { useTheme } from "@mui/material";
 
 const styles = {
     gridListTile: {
@@ -46,6 +47,7 @@ interface TemplateMoviePageProps {
 }
 
 const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, trailerKey, children }) => {
+    const theme = useTheme();
     const { favourites, addToFavourites } = useContext(MoviesContext) || { favourites: [], addToFavourites: () => {} };
     const [value, setValue] = useState(0);
 
@@ -66,7 +68,7 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, trailerKey
     const firstImage = images.length > 0 ? images[0] : null;
     const isFavourite = favourites.includes(movie.id);
 
-    const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
 
@@ -111,9 +113,27 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, trailerKey
                     centered
                     sx={styles.tabs}
                 >
-                    <Tab label="Overview" sx={styles.tab} />
-                    <Tab label="Cast" sx={styles.tab} />
-                    <Tab label="Reviews" sx={styles.tab} />
+                    <Tab label="Overview"  sx={{
+                        color: theme.palette.text.primary,
+                        '&.Mui-selected': {
+                            color: theme.palette.primary.main,
+                            borderBottom: `2px solid ${theme.palette.primary.main}`,
+                        },
+                    }} />
+                    <Tab label="Cast" sx={{
+                        color: theme.palette.text.primary,
+                        '&.Mui-selected': {
+                            color: theme.palette.primary.main,
+                            borderBottom: `2px solid ${theme.palette.primary.main}`,
+                        },
+                    }} />
+                    <Tab label="Reviews" sx={{
+                        color: theme.palette.text.primary,
+                        '&.Mui-selected': {
+                            color: theme.palette.primary.main,
+                            borderBottom: `2px solid ${theme.palette.primary.main}`,
+                        },
+                    }} />
                 </Tabs>
 
                 <Box sx={{ p: 3 }}>

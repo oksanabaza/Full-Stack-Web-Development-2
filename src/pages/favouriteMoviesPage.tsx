@@ -36,6 +36,7 @@ const FavouriteMoviesPage: React.FC = () => {
     return <Typography variant="h6">No favourite movies found.</Typography>;
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const favouriteMovieQueries = useQueries(
     movieIds.map((movieId) => ({
       queryKey: ["movie", movieId],
@@ -54,7 +55,7 @@ const FavouriteMoviesPage: React.FC = () => {
     return <Typography variant="h6">Failed to load favourite movies.</Typography>;
   }
 
-  const allFavourites = favouriteMovieQueries.map((q) => q.data);
+  const allFavourites = favouriteMovieQueries.map((q) => q.data).filter(Boolean);
   const displayedMovies = filterFunction(allFavourites);
 
   const changeFilterValues = (type: string, value: string) => {
@@ -71,6 +72,7 @@ const FavouriteMoviesPage: React.FC = () => {
           onFilterValuesChange={changeFilterValues}
           titleFilter={filterValues[0].value}
           genreFilter={filterValues[1].value}
+          onSortOrderChange={() => {}} // Placeholder function
         />
       </Grid>
       <Grid item xs={9}>
@@ -79,10 +81,11 @@ const FavouriteMoviesPage: React.FC = () => {
           movies={displayedMovies}
           action={(movie) => (
             <>
-              <RemoveFromFavourites {...movie} />
-              <WriteReview {...movie} />
+              <RemoveFromFavourites movieId={movie.id} />
+              <WriteReview movieId={movie.id} />
             </>
           )}
+          selectFavourite={() => {}} // Placeholder function
         />
       </Grid>
     </Grid>

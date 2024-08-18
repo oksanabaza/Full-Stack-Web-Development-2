@@ -29,11 +29,14 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+const mockOnSortOrderChange = action("sort order change");
+
 export const Basic: Story = {
   args: {
     onUserInput: action("filter input"),
     titleFilter: "",
     genreFilter: "All",
+    onSortOrderChange: mockOnSortOrderChange, 
   },
 };
 Basic.storyName = "Default";

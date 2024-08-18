@@ -1,9 +1,9 @@
-import React, {useMemo} from 'react';
+import React, { useMemo } from 'react';
 import PageTemplate from '../components/templateMovieListPage';
 import { BaseMovieProps } from "../types/interfaces";
 import { getUpcomingMovies } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
-import AddToPlaylistIcon from '../components/cardIcons/addToPlaylist'
+import AddToPlaylistIcon from '../components/cardIcons/addToPlaylist';
 import MovieFilterUI, {
   titleFilter,
   genreFilter,
@@ -24,6 +24,7 @@ const genreFiltering = {
   condition: genreFilter,
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 const UpcomingMoviesPage: React.FC = () => {
   const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(
     'upcoming',
@@ -47,11 +48,20 @@ const UpcomingMoviesPage: React.FC = () => {
     setFilterValues(updatedFilterSet);
   };
 
-	const movies = data ? data.results : [];
+  const handleSortOrderChange = (order: string) => {
+    console.log(`Sort order changed to: ${order}`);
+  };
 
-	const displayedMovies = useMemo(() => filterFunction(movies), [movies, filterFunction]);
+  const handleSelectFavourite = (movieId: number) => {
+    console.log(`Selected favourite movie ID: ${movieId}`);
+  };
 
-	if (isLoading) {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const movies = data ? data.results : [];
+
+  const displayedMovies = useMemo(() => filterFunction(movies), [movies, filterFunction]);
+
+  if (isLoading) {
     return <Spinner />;
   }
 
@@ -61,24 +71,27 @@ const UpcomingMoviesPage: React.FC = () => {
 
   return (
     <>
-    <Grid container spacing={1} mt={10}>
-    
+      <Grid container spacing={1} mt={10}>
         <Grid item xs={3}>
-      <MovieFilterUI
-        onFilterValuesChange={changeFilterValues}
-        titleFilter={filterValues[0].value}
-        genreFilter={filterValues[1].value}
-      />
-      </Grid>
-      <Grid item xs={9}>
-      <PageTemplate
-        title='Upcoming Movies'
-        movies={displayedMovies}
-        action={(movie: BaseMovieProps) => <AddToPlaylistIcon {...movie} />}
-      />
+          <MovieFilterUI
+            onFilterValuesChange={changeFilterValues}
+            titleFilter={filterValues[0].value}
+            genreFilter={filterValues[1].value}
+            onSortOrderChange={handleSortOrderChange}
+          />
+        </Grid>
+        <Grid item xs={9}>
+          <PageTemplate
+            title='Upcoming Movies'
+            movies={displayedMovies}
+            action={(movie: BaseMovieProps) => <AddToPlaylistIcon {...movie} />}
+            selectFavourite={handleSelectFavourite} 
+          />
         </Grid>
       </Grid>
     </>
   );
 };
+
+// eslint-disable-next-line react-refresh/only-export-components
 export default React.memo(UpcomingMoviesPage);
