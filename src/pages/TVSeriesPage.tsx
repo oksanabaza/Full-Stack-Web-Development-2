@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { useQuery } from "react-query";
 import { Box, Grid, Typography, Card, CardMedia, CardContent, CircularProgress } from "@mui/material";

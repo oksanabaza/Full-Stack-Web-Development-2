@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";

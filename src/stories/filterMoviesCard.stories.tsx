@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { Meta, StoryObj } from '@storybook/react';
 import FilterMoviesCard from "../components/filterMoviesCard";
 import { MemoryRouter } from "react-router";

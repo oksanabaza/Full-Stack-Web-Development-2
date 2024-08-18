@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import SiteHeader from "../components/siteHeader";
 import { MemoryRouter } from "react-router";

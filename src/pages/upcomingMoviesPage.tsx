@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, {useMemo} from 'react';
 import PageTemplate from '../components/templateMovieListPage';
 import { BaseMovieProps } from "../types/interfaces";

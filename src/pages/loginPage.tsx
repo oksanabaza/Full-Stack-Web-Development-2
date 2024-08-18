@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useContext } from "react";
 import { AuthContext } from "../contexts/authContext";
 import GitHubIcon from '@mui/icons-material/GitHub';

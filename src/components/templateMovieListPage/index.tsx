@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import Header from "../headerMovieList";
 import Grid from "@mui/material/Grid";

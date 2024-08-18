@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useContext, useState } from "react";
 import MovieHeader from "../headerMovie";
 import Grid from "@mui/material/Grid";

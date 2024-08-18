@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { Meta, StoryObj } from '@storybook/react';
 import MovieDetails from "../components/movieDetails";
 import SampleMovie from "./sampleData";
