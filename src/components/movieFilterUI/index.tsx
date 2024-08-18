@@ -2,17 +2,14 @@ import React from "react";
 import FilterCard from "../filterMoviesCard";
 import { BaseMovieProps } from "../../types/interfaces";
 
-// Function to filter movies by title
 export const titleFilter = (movie: BaseMovieProps, value: string): boolean => {
   return movie.title.toLowerCase().includes(value.toLowerCase());
 };
 
-// Function to filter movies by genre
 export const genreFilter = (movie: BaseMovieProps, value: string): boolean => {
   const genreId = Number(value);
-  const genreIds = movie.genre_ids;
-  // If genreId is 0 or not provided, all genres should be included (no filtering)
-  return genreId === 0 || (genreIds && genreIds.includes(genreId));
+  const genreIds = movie.genre_ids || []; // Handle case where genre_ids might be undefined
+  return genreId === 0 || genreIds.includes(genreId);
 };
 
 const styles = {

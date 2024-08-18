@@ -11,6 +11,7 @@ import MovieFilterUI, {
 import { DiscoverMovies } from '../types/interfaces';
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
+import Grid from "@mui/material/Grid";
 
 const titleFiltering = {
   name: "title",
@@ -60,16 +61,23 @@ const UpcomingMoviesPage: React.FC = () => {
 
   return (
     <>
-      <PageTemplate
-        title='Upcoming Movies'
-        movies={displayedMovies}
-        action={(movie: BaseMovieProps) => <AddToPlaylistIcon {...movie} />}
-      />
+    <Grid container spacing={1} mt={10}>
+    
+        <Grid item xs={3}>
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}
         titleFilter={filterValues[0].value}
         genreFilter={filterValues[1].value}
       />
+      </Grid>
+      <Grid item xs={9}>
+      <PageTemplate
+        title='Upcoming Movies'
+        movies={displayedMovies}
+        action={(movie: BaseMovieProps) => <AddToPlaylistIcon {...movie} />}
+      />
+        </Grid>
+      </Grid>
     </>
   );
 };

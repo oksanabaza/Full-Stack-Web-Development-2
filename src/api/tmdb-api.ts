@@ -24,7 +24,21 @@ export const getMovie = (id: string) => {
     throw error
  });
 };
-  
+  export const getTvSeriesDetails = (id: string) => {
+  return fetch(
+    `https://api.themoviedb.org/3/tv/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
+  )
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`Failed to get TV series data. Response status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .catch((error) => {
+    throw error;
+  });
+};
+
   export const getGenres = () => {
     return fetch(
       "https://api.themoviedb.org/3/genre/movie/list?api_key=" + import.meta.env.VITE_TMDB_KEY + "&language=en-US"
@@ -73,6 +87,7 @@ export const getMovie = (id: string) => {
       .then(res => res.json())
       // .then(json => json.results);
   };
+  
   export const getPeople = () => {
     return fetch(
       `https://api.themoviedb.org/3/trending/person/day?api_key=${import.meta.env.VITE_TMDB_KEY}`
@@ -283,13 +298,37 @@ export const getSortedByPopularity = (sort_value: string, page: number)=>{
   });
 }
 
-export const getMoviesByGenre = (genreId: number, page: number)=>{
+export const getMoviesByGenre = (genreId: number, page: number,sort_value: string)=>{
   return fetch(
-    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&with_genres=${genreId}&page=${page}`
+    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&with_genres=${genreId}&page=${page}&sort_by=popularity.${sort_value}`
   )
   .then((res) => res.json())
   .catch((error) => {
     throw error;
   });
 }
+
+export const searchMoviesByTitle = (query: string, page: number, sort_value: string) => {
+  return fetch(
+    `https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&query=${encodeURIComponent(query)}&page=${page}&sort_by=popularity.${sort_value}`
+  )
+  .then((res) => res.json())
+  .catch((error) => {
+    throw error;
+  });
+};
+
+export const getMovieTrailer = (movieId: number) => {
+  return fetch(
+    `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US`
+  )
+  .then((res) => res.json())
+  .then((data) => {
+    const trailer = data.results.find((video: any) => video.type === 'Trailer' && video.site === 'YouTube');
+    return trailer ? trailer.key : null; 
+  })
+  .catch((error) => {
+    throw error;
+  });
+};
 

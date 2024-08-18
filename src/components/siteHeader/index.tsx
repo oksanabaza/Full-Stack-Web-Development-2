@@ -39,7 +39,7 @@ const SiteHeader: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
   const menuOptions = [
     { label: "Home", path: "/" },
     { label: "Upcoming", path: "movies/upcoming" },
-    { label: "Favorites", path: "/movies/favourites" },
+    { label: "Must Watch", path: "/movies/favourites" },
     { label: "Popular", path: "/movies/popular" },
     { label: "TV Series", path: "/movies/tvseries" },
     { label: "Actors", path: "/movies/people" },

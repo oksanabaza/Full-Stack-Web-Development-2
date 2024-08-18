@@ -21,6 +21,8 @@ import AuthProvider from "./contexts/authContext";
 import { ThemeProvider, CssBaseline, Container, useMediaQuery, Theme } from "@mui/material";
 import { lightTheme, darkTheme } from "./theme";
 import "./styles.css";
+import AllActorsPage from './components/AllActorsPage'
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -62,7 +64,7 @@ const App: React.FC = () => {
                   } />
                   <Route path="/movies/popular" element={<PopularMoviesPage />} />
                   <Route path="/movies/tvseries" element={<TVSeriesPage />} />
-                  <Route path="/movies/people" element={<ActorsPage />} />
+                  <Route path="/movies/people" element={<AllActorsPage />} />
                   <Route path="/movies/:id" element={<MoviePage />} />
                   <Route path="/actors/:id" element={<ActorsPage />} />
                   <Route path="/tvshows/:id" element={<TvShowsPage />} />

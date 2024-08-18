@@ -1,104 +1,79 @@
 import React from "react";
-import { Card, CardContent, CardMedia, Typography, Grid } from "@mui/material";
+import { Card, CardContent, CardMedia, Typography, Grid, useTheme } from "@mui/material";
 import { ActorDetailsProps } from "../../types/interfaces";
 
+const ActorDetails: React.FC<{ actor: ActorDetailsProps }> = ({ actor }) => {
+  const theme = useTheme();
 
-const styles = {
-  card: {
-    borderRadius: 5,
-    overflow: "hidden",
-    boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)",
-    backgroundColor: '#333', 
-    color: '#fff', 
-    width: '350px', 
-    height: 'auto', 
-    display: 'flex',
-    flexDirection: 'column', 
-    justifyContent: 'space-between', 
-  },
-
-  media: {
-    height: 0,
-    paddingTop: "150%",
-  },
-  content: {
-    padding: "16px",
-    textAlign: "center",
-    color: '#fff', 
-  },
-  scrollableContent: {
-    maxHeight: '480px', 
-    overflowY: 'auto', 
-    textAlign: 'left', 
-  },
-  container: {
-    marginTop: "20px",
-    marginBottom: "60px",
-    gap: 4, 
-    justifyContent: 'center',
-  },
-};
-
-interface ActorDetailsComponentProps {
-  actor: ActorDetailsProps;
-}
-
-const ActorDetails: React.FC<ActorDetailsComponentProps> = ({ actor }) => {
   return (
-    <Grid container spacing={4} sx={styles.container}>
-       <Grid item>
-       <Typography variant="h5" component="div">
-              {actor.name}
-            </Typography>
+    <Grid container spacing={4} sx={{ mt: 4, mb: 6 }}>
+      {/* Actor Name */}
+      <Grid item xs={12}>
+        <Typography variant="h4" component="h1" sx={{ textAlign: 'center', color: theme.palette.text.primary }}>
+          {actor.name}
+        </Typography>
+      </Grid>
+
+      {/* Main Content Row */}
+      <Grid item xs={12}>
+        <Grid container spacing={4}>
+          {/* Actor Profile Picture */}
+          <Grid item xs={12} sm={4}>
+            <Card sx={{ borderRadius: 5, overflow: "hidden", boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)" }}>
+              <CardMedia
+                sx={{ height: 0, paddingTop: "150%" }}
+                image={
+                  actor.profile_path
+                    ? `https://image.tmdb.org/t/p/w500/${actor.profile_path}`
+                    : 'path/to/default-image.jpg'
+                }
+                title={actor.name}
+              />
+            </Card>
+          </Grid>
+
+          {/* Biography and Additional Information */}
+          <Grid item xs={12} sm={8}>
+            <Grid container spacing={3}>
+              {/* Biography */}
+              <Grid item xs={12}>
+                <Card sx={{ borderRadius: 5, overflow: "hidden", boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)", backgroundColor: theme.palette.background.paper }}>
+                  <CardContent sx={{ p: 3 }}>
+                    <Typography variant="h6" component="div" sx={{ mb: 2 }}>
+                      Biography
+                    </Typography>
+                    <Typography variant="body2">
+                      {actor.biography || 'Biography information is not available.'}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+
+              {/* Additional Information */}
+              <Grid item xs={12}>
+                <Card sx={{ borderRadius: 5, overflow: "hidden", boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)", backgroundColor: theme.palette.background.paper }}>
+                  <CardContent sx={{ p: 3 }}>
+                    <Typography variant="h6" component="div" sx={{ mb: 2 }}>
+                      Additional Information
+                    </Typography>
+                    <Typography variant="body2" sx={{ mb: 1 }}>
+                      <strong>Known For:</strong> {actor.known_for_department || 'Not Available'}
+                    </Typography>
+                    <Typography variant="body2" sx={{ mb: 1 }}>
+                      <strong>Date of Birth:</strong> {actor.birthday || 'Not Available'}
+                    </Typography>
+                    <Typography variant="body2" sx={{ mb: 1 }}>
+                      <strong>Place of Birth:</strong> {actor.place_of_birth || 'Not Available'}
+                    </Typography>
+                    <Typography variant="body2">
+                      <strong>Popularity:</strong> {actor.popularity ? actor.popularity.toFixed(1) : 'Not Available'}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
             </Grid>
-      <Grid item>
-        <Card sx={styles.card}>
-          <CardMedia
-            sx={styles.media}
-            image={
-              actor.profile_path
-                ? `https://image.tmdb.org/t/p/w500/${actor.profile_path}`
-                : 'path/to/default-image.jpg' 
-            }
-  
-          />
-         
-        </Card>
-      </Grid>
-      <Grid item>
-        {/* <Card sx={styles.card}> */}
-          <CardContent sx={{ ...styles.content, ...styles.scrollableContent }}>
-            <Typography variant="h6" component="div">
-              Biography
-            </Typography>
-            <Typography variant="body2" sx={{ mt: 1 }}>
-              {actor.biography || 'Biography information is not available.'
-              }
-            </Typography>
-          </CardContent>
-        {/* </Card> */}
-      </Grid>
-      <Grid item>
-        {/* <Card sx={styles.card}> */}
-          {/* <CardContent sx={styles.content}> */}
-            <Typography variant="h6" component="div">
-              Additional Information
-            </Typography>
-            <Typography variant="body2" sx={{ mt: 1 }}>
-              <strong>Known For:</strong> {actor.known_for_department || 'Not Available'}
-            </Typography>
-            <Typography variant="body2" sx={{ mt: 1 }}>
-              <strong>Date of Birth:</strong> {actor.birthday || 'Not Available'}
-            </Typography>
-            <Typography variant="body2" sx={{ mt: 1 }}>
-              <strong>Place of Birth:</strong> {actor.place_of_birth || 'Not Available'}
-            </Typography>
-            <Typography variant="body2" sx={{ mt: 1 }}>
-              <strong>Popularity:</strong> {actor.popularity ? actor.popularity.toFixed(1) : 'Not Available' 
-              }
-            </Typography>
-          {/* </CardContent> */}
-        {/* </Card> */}
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );

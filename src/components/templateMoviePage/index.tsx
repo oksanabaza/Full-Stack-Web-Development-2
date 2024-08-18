@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import MovieHeader from "../headerMovie";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
@@ -11,7 +11,11 @@ import CastMembers from './../castMembers';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import MovieReviews from '../movieReviews'
+import MovieReviews from '../movieReviews';
+import CardActions from "@mui/material/CardActions";
+import Button from "@mui/material/Button";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { MoviesContext } from "../../contexts/moviesContext";
 
 const styles = {
     gridListTile: {
@@ -24,25 +28,26 @@ const styles = {
         border: "none",
     },
     tabs: {
-        color: "white", // Tab text color
-        // backgroundColor: "black", // Background color of the tabs
+        color: "white",
     },
     tab: {
-        color: "white", // Text color of each tab
+        color: "white",
         "&.Mui-selected": {
-            color: "white", // Color of the selected tab
-            borderBottom: "2px solid white", // Highlight the selected tab
+            color: "white",
+            borderBottom: "2px solid white",
         },
     },
 };
 
 interface TemplateMoviePageProps {
     movie: MovieDetailsProps;
+    trailerKey: string | null;  
     children: React.ReactElement;
 }
 
-const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, children }) => {
-    const [value, setValue] = useState(0); // State for managing the selected tab
+const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, trailerKey, children }) => {
+    const { favourites, addToFavourites } = useContext(MoviesContext) || { favourites: [], addToFavourites: () => {} };
+    const [value, setValue] = useState(0);
 
     const { data, error, isLoading, isError } = useQuery<MovieImage[], Error>(
         ["images", movie.id],
@@ -59,6 +64,7 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, children }
 
     const images = data as MovieImage[];
     const firstImage = images.length > 0 ? images[0] : null;
+    const isFavourite = favourites.includes(movie.id);
 
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -84,17 +90,20 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, children }
                     )}
                 </Grid>
                 <Grid item xs={8} mt={2} mb={2}>
-                    <iframe
-                        title="YouTube Video"
-                        style={styles.iframe}
-                        src="https://www.youtube.com/embed/UwdWkxEjCKU"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                    ></iframe>
+                    {trailerKey ? (
+                        <iframe
+                            title="YouTube Trailer"
+                            style={styles.iframe}
+                            src={`https://www.youtube.com/embed/${trailerKey}`}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                        ></iframe>
+                    ) : (
+                        <p>Trailer not available</p>
+                    )}
                 </Grid>
             </Grid>
 
-            {/* Tabs Section */}
             <Grid item xs={12}>
                 <Tabs
                     value={value}
@@ -107,12 +116,33 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({ movie, children }
                     <Tab label="Reviews" sx={styles.tab} />
                 </Tabs>
 
-                {/* Tab Content */}
                 <Box sx={{ p: 3 }}>
                     {value === 0 && (
                         <Box>
                             <h2>Overview</h2>
                             {children}
+
+                            <CardActions disableSpacing>
+                                {!isFavourite && (
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        startIcon={<FavoriteIcon />}
+                                        onClick={() => addToFavourites(movie)}
+                                    >
+                                        Save for later
+                                    </Button>
+                                )}
+                                      {!!isFavourite && (
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        startIcon={<FavoriteIcon />}
+                                    >
+                                        Saved for later
+                                    </Button>
+                                )}
+                            </CardActions>
                         </Box>
                     )}
                     {value === 1 && (
