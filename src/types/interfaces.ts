@@ -179,3 +179,12 @@ export interface TvShowWatchProvidersResponse {
     [key: string]: TvShowRegionWatchProviders | undefined;
   };
 }
+export interface BasePersonProps {
+  id: number;
+  name: string;
+  profile_path: string | null;
+}
+
+export interface DiscoverPeopleProps {
+  results: BasePersonProps[];
+}
