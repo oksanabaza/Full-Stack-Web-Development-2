@@ -41,7 +41,7 @@ const styles = {
 
 interface TemplateMoviePageProps {
     movie: MovieDetailsProps;
-    trailerKey: string | null;  
+    trailerKey?: string | null;  
     children: React.ReactElement;
 }
 
