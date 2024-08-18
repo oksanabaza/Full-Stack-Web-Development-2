@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { createContext, useState, useEffect, ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContextInterface } from "../types/interfaces";

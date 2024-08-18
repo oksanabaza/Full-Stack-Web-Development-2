@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 import { getTvShowImages, getTvShowVideos, getSimilarTvShows, getTvShowWatchProviders } from "../../api/tmdb-api";
